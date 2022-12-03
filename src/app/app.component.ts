@@ -12,6 +12,8 @@ import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { SplashScreenService } from '../@vex/services/splash-screen.service';
 import { Style, StyleService } from '../@vex/services/style.service';
 import { ConfigName } from '../@vex/interfaces/config-name.model';
+import { navigationItems } from 'src/@biostar/navigation-items';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'vex-root',
@@ -30,12 +32,15 @@ export class AppComponent {
               private layoutService: LayoutService,
               private route: ActivatedRoute,
               private navigationService: NavigationService,
-              private splashScreenService: SplashScreenService) {
+              private splashScreenService: SplashScreenService,
+              private translate: TranslateService) {
     Settings.defaultLocale = this.localeId;
 
     if (this.platform.BLINK) {
       this.renderer.addClass(this.document.body, 'is-blink');
     }
+    translate.setDefaultLang('en');
+    translate.use('en');
 
     /**
      * Customize the template to your needs with the ConfigService
@@ -76,13 +81,6 @@ export class AppComponent {
     ).subscribe(queryParamMap => this.styleService.setStyle(queryParamMap.get('style') as Style));
 
 
-    this.navigationService.items = [
-      {
-        type: 'link',
-        label: 'Dashboard',
-        route: '/',
-        icon: icLayers
-      }
-    ];
+    this.navigationService.items =navigationItems
   }
 }

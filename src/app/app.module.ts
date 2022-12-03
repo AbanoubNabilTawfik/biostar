@@ -9,6 +9,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CustomLayoutModule } from './custom-layout/custom-layout.module';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { AuthModule } from './pages/auth/auth.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -17,6 +18,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    AuthModule,
 
     // Vex
     VexModule,

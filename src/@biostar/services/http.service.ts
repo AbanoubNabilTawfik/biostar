@@ -5,18 +5,27 @@ import { throwError, Observable } from 'rxjs';
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map, mergeMap, catchError } from 'rxjs/operators';
-import { AuthService } from './auth.service';
+// import { AuthService } from './auth.service';
 
 
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class HttpService {
+  user: any;
+  loggedInUser$: any;
+  loadingAction$: any;
 
   constructor(
     private router: Router,
     private http: HttpClient,
-    private authService: AuthService
-  ) { }
+    // private authService: AuthService
+  ) { 
+    this.user = JSON.parse(localStorage.getItem("lease_user"));
+    if (this.user != null) {
+      this.loggedInUser$.next(this.user);
+      this.loadingAction$.next(false);
+    }
+  }
 
 
   setTokenExpiriation(isExpire: boolean) {
@@ -118,7 +127,7 @@ export class HttpService {
           const errJSON = JSON.parse(errSTR);
           return throwError(errJSON._body);
         } else if (err.status === 401) { // 401 (not authorized)
-          user && user.token ? this.setTokenExpiriation(true) : this.authService.logout();
+          user && user.token ? this.setTokenExpiriation(true) : this.logout();
         } else if (err.status === 403) { // 403 (Forbidden)
           this.router.navigate(['/errors/error-403']);
         }
@@ -151,7 +160,7 @@ export class HttpService {
           const errJSON = JSON.parse(errSTR);
           return throwError(errJSON._body);
         } else if (err.status === 401) { // 401 (not authorized)
-          user && user.token ? this.setTokenExpiriation(true) : this.authService.logout();
+          user && user.token ? this.setTokenExpiriation(true) : this.logout();
         } else if (err.status === 403) { // 403 (Forbidden)
           this.router.navigate(['/errors/error-403']);
         }
@@ -183,7 +192,7 @@ export class HttpService {
           const errJSON = JSON.parse(errSTR);
           return throwError(errJSON._body);
         } else if (err.status === 401) { // 401 (not authorized)
-          user && user.token ? this.setTokenExpiriation(true) : this.authService.logout();
+          user && user.token ? this.setTokenExpiriation(true) : this.logout();
         } else if (err.status === 403) { // 403 (Forbidden)
           this.router.navigate(['/errors/error-403']);
         }
@@ -216,7 +225,7 @@ export class HttpService {
           const errJSON = JSON.parse(errSTR);
           return throwError(errJSON._body);
         } else if (err.status === 401) { // 401 (not authorized)
-          user && user.token ? this.setTokenExpiriation(true) : this.authService.logout();
+          user && user.token ? this.setTokenExpiriation(true) : this.logout();
         } else if (err.status === 403) { // 403 (Forbidden)
           this.router.navigate(['/errors/error-403']);
         }
@@ -255,7 +264,7 @@ export class HttpService {
             const errJSON = JSON.parse(errSTR);
             return throwError(errJSON._body);
           } else if (err.status === 401) { // 401 (not authorized)
-            user && user.token ? this.setTokenExpiriation(true) : this.authService.logout();
+            user && user.token ? this.setTokenExpiriation(true) : this.logout();
           } else if (err.status === 403) { // 403 (Forbidden)
             this.router.navigate(['/demo1/security/forbidden-page']);
           }
@@ -263,6 +272,14 @@ export class HttpService {
       );
   }
 
+    // logout
+    logout() {
+      this.user = null;
+      // localStorage.clear();
+      localStorage.removeItem("lease_user");
+      localStorage.removeItem("locationDto");
+      this.router.navigate(["/auth/login"]);
+    }
  
 
 }

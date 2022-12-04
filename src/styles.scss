@@ -28,3 +28,9 @@
   // --color-warn: yellow;
   // --color-warn-contrast: black;
 }
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+@import 'assets/theme/main-styles.scss';
+
+

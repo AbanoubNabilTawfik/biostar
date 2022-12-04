@@ -14,6 +14,7 @@ import { Style, StyleService } from '../@vex/services/style.service';
 import { ConfigName } from '../@vex/interfaces/config-name.model';
 import { navigationItems } from 'src/@biostar/navigation-items';
 import { TranslateService } from '@ngx-translate/core';
+import { SharedService } from 'src/@biostar/services/shared.service';
 
 @Component({
   selector: 'vex-root',
@@ -33,14 +34,17 @@ export class AppComponent {
               private route: ActivatedRoute,
               private navigationService: NavigationService,
               private splashScreenService: SplashScreenService,
-              private translate: TranslateService) {
+              private translate: TranslateService,
+              public SharedService: SharedService,
+
+              ) {
     Settings.defaultLocale = this.localeId;
 
     if (this.platform.BLINK) {
       this.renderer.addClass(this.document.body, 'is-blink');
     }
-    translate.setDefaultLang('en');
-    translate.use('en');
+    this.SharedService.initLang();
+
 
     /**
      * Customize the template to your needs with the ConfigService
@@ -83,4 +87,5 @@ export class AppComponent {
 
     this.navigationService.items =navigationItems
   }
+  
 }

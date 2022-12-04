@@ -10,6 +10,7 @@ import { CustomLayoutModule } from './custom-layout/custom-layout.module';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AuthModule } from './pages/auth/auth.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [AppComponent],
@@ -29,7 +30,8 @@ import { AuthModule } from './pages/auth/auth.module';
           useFactory: HttpLoaderFactory,
           deps: [HttpClient]
       }
-  })
+  }),
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]
@@ -37,5 +39,5 @@ import { AuthModule } from './pages/auth/auth.module';
 export class AppModule { }
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
-  return new TranslateHttpLoader(http);
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json')
 }

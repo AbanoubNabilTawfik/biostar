@@ -64,13 +64,11 @@ export class LoginComponent implements OnInit {
 
   login() {
     let body = {
-      mobile_app_version: "",
-      mobile_device_type: "",
-      mobile_os_version: "",
-      name: this.form.get('email').value,
-      notification_token: "",
-      password:  this.form.get('password').value,
-      user_id: "",
+      "User": {
+        "login_id":this.form.get('email').value,
+        "password": this.form.get('password').value,
+      }
+
     };
     // this.spinner.show();
     this.AuthService.login(body).subscribe(

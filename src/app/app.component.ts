@@ -6,7 +6,7 @@ import { Platform } from '@angular/cdk/platform';
 import { NavigationService } from '../@vex/services/navigation.service';
 import icLayers from '@iconify/icons-ic/twotone-layers';
 import { LayoutService } from '../@vex/services/layout.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { SplashScreenService } from '../@vex/services/splash-screen.service';
@@ -30,12 +30,13 @@ export class AppComponent {
               private platform: Platform,
               @Inject(DOCUMENT) private document: Document,
               @Inject(LOCALE_ID) private localeId: string,
-              private layoutService: LayoutService,
+              public layoutService: LayoutService,
               private route: ActivatedRoute,
               private navigationService: NavigationService,
               private splashScreenService: SplashScreenService,
               private translate: TranslateService,
               public SharedService: SharedService,
+              private router:Router
 
               ) {
     Settings.defaultLocale = this.localeId;
@@ -87,5 +88,5 @@ export class AppComponent {
 
     this.navigationService.items =navigationItems
   }
-  
+
 }

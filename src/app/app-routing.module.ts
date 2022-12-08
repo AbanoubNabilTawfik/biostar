@@ -8,11 +8,22 @@ const routes: Routes = [
     loadChildren: () => import('./pages/auth/auth.module').then(m => m.AuthModule),
   },
   {
+    path: 'users',
+    loadChildren: () => import('./pages/users/users.module').then(m => m.UsersModule),
+  },
+
+  {
+    path: 'errors',
+    loadChildren: () => import('./pages/errors/errors.module').then(m => m.ErrorsModule),
+  },
+  {
     
     path: '',
     component: CustomLayoutComponent,
     children: []
-  }
+  },
+  { path: '**', redirectTo: 'errors/error-404', pathMatch: 'full' }
+
 ];
 
 @NgModule({

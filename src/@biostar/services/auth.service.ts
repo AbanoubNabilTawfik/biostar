@@ -4,8 +4,9 @@ import { Router } from "@angular/router";
 import * as jwt_decode from "jwt-decode";
 import { HttpService } from "./http.service";
 import { AccountController } from "../APIs/authController";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class AuthService {
   user: any;
 
@@ -16,7 +17,11 @@ export class AuthService {
   public loadingAction$: BehaviorSubject<Boolean> =
     new BehaviorSubject<Boolean>(false);
 
-  constructor(private router: Router, private HttpService: HttpService) {
+  constructor(
+    private router: Router,
+    private HttpService: HttpService,
+    private http: HttpClient
+  ) {
     this.user = JSON.parse(localStorage.getItem("lease_user"));
     if (this.user != null) {
       this.loggedInUser$.next(this.user);
@@ -64,8 +69,6 @@ export class AuthService {
     this.loggedInUser$.next(JSON.parse(localStorage.getItem("lease_user")));
   }
 
-
-
   // load the data
   loadToken() {
     if (
@@ -103,6 +106,15 @@ export class AuthService {
   }
 
   login(model: any) {
-    return this.HttpService.POST(AccountController.login, model);
+    const user = JSON.parse(localStorage.getItem('lease_user'));
+    let headers: HttpHeaders = new HttpHeaders();
+    headers=   headers.append('Accept', 'application/json');
+    headers=   headers.append('rejectUnauthorized', 'false');
+
+    // if (user && user.token) {
+    //   headers = headers.append('Authorization', user.token);
+    // }
+
+    return this.http.post(AccountController.login, model);
   }
 }

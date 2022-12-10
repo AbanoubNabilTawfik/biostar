@@ -11,6 +11,8 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AuthModule } from './pages/auth/auth.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AlertsModule } from './alerts/alerts.module';
+// import { NgxMatDatetimePickerModule } from '@angular-material-components/datetime-picker/public-api';
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,7 +33,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
           deps: [HttpClient]
       }
   }),
-    NgbModule
+    NgbModule,
+    AlertsModule
+    // NgxMatDatetimePickerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

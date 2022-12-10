@@ -9,5 +9,13 @@ export const navigationItems: NavigationItem[] = [
     //permission: ['MCSPCompanyAdmin', 'McspCarrier'],
     route: "/users/list",
   },
+  {
+    type: "link",
+    label: "Print Options",
+    icon: null,
+    // fontAwesome: "far fa-comment-dots item-icon",
+    //permission: ['MCSPCompanyAdmin', 'McspCarrier'],
+    route: "/print-options/list",
+  },
 
   ]; 

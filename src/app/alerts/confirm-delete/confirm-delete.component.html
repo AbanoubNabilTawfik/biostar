@@ -1,0 +1,8 @@
+<div class="confirm-dialog-container">
+    <div class="content-container">
+      <!-- <mat-icon id="close-icon" (click)="closeDialog()">close</mat-icon> -->
+      <span class="content-span full-width">{{data.message|translate}}</span>
+    </div>
+    <button mat-flat-button id="no-button" (click)="confirm(false)">{{"NO"|translate}}</button>
+    <button mat-flat-button id="yes-button" (click)="confirm(true)">{{"YES"|translate}}</button>
+  </div>

@@ -1,7 +1,8 @@
+
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { UsersRoutingModule } from './users-routing.module';
+import { PrintOptionsRoutingModule } from './print-options-routing.module';
 import { ListComponent } from './list/list.component';
 import { CreateEditComponent } from './create-edit/create-edit.component';
 import { DetailsComponent } from './details/details.component';
@@ -59,7 +60,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
   declarations: [ListComponent, CreateEditComponent, DetailsComponent],
   imports: [
     CommonModule,
-    UsersRoutingModule,
+    PrintOptionsRoutingModule,
     MatDialogModule,
     TranslateModule.forRoot({
       loader: {
@@ -118,7 +119,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 
 })
-export class UsersModule { }
+export class PrintOptionsModule { }
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json')
 }

@@ -1,3 +1,19 @@
+@import "./image-upload.scss";
+
+
 .p-relative{
     position: relative!important;
+}
+.snackBarStyle
+{
+    background-color: #F44336;
+    color: white;
+    width: fit-content;
+    //white-space : pre-wrap;
+}
+.snackBarStyleSuccess
+{
+    background-color: #28a745;
+    color: white;
+    width: fit-content;
 }

@@ -1,0 +1,212 @@
+<div mat-dialog-title style="display: flex; justify-content: space-between">
+  <h6 class="userInfo">
+    {{ "Create New User" | translate }}
+
+    <!-- {{ "Edit User Information" | translate }} -->
+  </h6>
+  <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<mat-dialog-content>
+  <div [dir]="SharedService.dir() == 'en' ? 'ltr' : 'rtl'">
+    <div class="row user-containt">
+      <div class="col-lg-12 position-relative user-create bg-white">
+        <div class="container bg-white">
+          <h6 class="userInfo">{{ "User Information" | translate }}</h6>
+          <form [formGroup]="Form">
+            <div class="row">
+              <div class="col-lg-6">
+                <div style="display: flex; justify-content: center">
+                  <img
+                    *ngIf="imgURL !== ''"
+                    height="200"
+                    width="200"
+                    [src]="imgURL"
+                    style="border-radius: 50%"
+                  />
+                </div>
+
+                <div class="image-upload" *ngIf="imgURL == ''">
+                  <label for="file-input">
+                    <img src="assets/img/demo/Frame.png" />
+                    <p *ngIf="imgName !== '' || imgName !== undefined">
+                      {{ imgName }}
+                    </p>
+                    <p *ngIf="imgName == '' || imgName == undefined">
+                      {{ "Add Company Logo" | translate }}
+                    </p>
+                  </label>
+
+                  <input
+                    *ngIf="imgURL == ''"
+                    id="file-input"
+                    type="file"
+                    #file
+                    (change)="preview(file.files)"
+                    accept="image/*"
+                  />
+                </div>
+                <div class="form-group" style="margin-bottom: 0">
+                  <mat-form-field appearance="fill" style="width: 100%">
+                    <mat-label>{{ "Font Style" | translate }}</mat-label>
+                    <mat-select disableRipple formControlName="FontStyle">
+                      <mat-option value="normal">normal</mat-option>
+                      <mat-option value="italic">italic</mat-option>
+                      <mat-option value="oblique">oblique</mat-option>
+                      <mat-option value="oblique 10deg"
+                        >oblique 10deg</mat-option
+                      >
+                      <mat-option value="inherit">inherit</mat-option>
+                      <mat-option value="initial">initial</mat-option>
+                      <mat-option value="revert">revert</mat-option>
+                      <mat-option value="revert-layer">revert-layer</mat-option>
+                      <mat-option value="unset">unset</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <div
+                    *ngIf="
+                      Form.get('FontStyle')?.touched &&
+                      Form.get('FontStyle')?.errors
+                    "
+                  >
+                    <div>
+                      <mat-error
+                        *ngIf="Form.get('FontStyle')?.errors['required']"
+                      >
+                        {{ "this field is required" | translate }}
+                      </mat-error>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="label-key mt-2">{{
+                    "FontSize" | translate
+                  }}</label>
+                  <input
+                    type="number"
+                    class="form-control input-value"
+                    name="FontSize"
+                    formControlName="FontSize"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="label-key mt-2">{{
+                    "Font Color" | translate
+                  }}</label>
+                  <input
+                    type="color"
+                    class="form-control input-value"
+                    name="FontColor"
+                    formControlName="FontColor"
+                  />
+
+                  <div
+                    *ngIf="
+                      Form.get('FontColor')?.touched &&
+                      Form.get('FontColor')?.errors
+                    "
+                  >
+                    <div>
+                      <mat-error
+                        *ngIf="Form.get('FontStyle')?.errors['required']"
+                      >
+                        {{ "this field is required" | translate }}
+                      </mat-error>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="label-key mt-2">{{
+                    "Card Width" | translate
+                  }}</label>
+                  <input
+                    type="number"
+                    class="form-control input-value"
+                    name="CardWidth"
+                    formControlName="CardWidth"
+                  />
+
+                  <div
+                    *ngIf="
+                      Form.get('CardWidth')?.touched &&
+                      Form.get('CardWidth')?.errors
+                    "
+                  >
+                    <div>
+                      <mat-error
+                        *ngIf="Form.get('CardWidth')?.errors['required']"
+                      >
+                        {{ "this field is required" | translate }}
+                      </mat-error>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="label-key mt-2">{{
+                    "Card height" | translate
+                  }}</label>
+                  <input
+                    type="number"
+                    class="form-control input-value"
+                    name="CardHight"
+                    formControlName="CardHight"
+                  />
+
+                  <div
+                    *ngIf="
+                      Form.get('CardHight')?.touched &&
+                      Form.get('CardHight')?.errors
+                    "
+                  >
+                    <div>
+                      <mat-error
+                        *ngIf="Form.get('CardHight')?.errors['required']"
+                      >
+                        {{ "this field is required" | translate }}
+                      </mat-error>
+                    </div>
+                  </div>
+                </div>
+ 
+              </div>
+              <div class="col-lg-6">
+                <!-- [ngStyle]="{'background-image':' url({{imgURL}})'}" -->
+                <!-- [attr.style]="'background-image':' url({{imgURL}})'" -->
+                <div class="card"
+                style="height: 100px; width: auto;"
+                [ngStyle]="{'background-color':'green'}"
+                
+                
+                ></div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <div class="main-stepper-btn">
+    <!-- [disabled]="Form.invalid" -->
+    <button
+      class="btn-gred"
+      (click)="submit()"
+      mat-raised-button
+      color="primary"
+    >
+      Save
+    </button>
+  </div>
+</mat-dialog-actions>
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="default"
+  color="#fff"
+  type="ball-spin-clockwise"
+  [fullScreen]="true"
+>
+  <p style="color: white">{{ "Please Wait." | translate }}</p>
+</ngx-spinner>

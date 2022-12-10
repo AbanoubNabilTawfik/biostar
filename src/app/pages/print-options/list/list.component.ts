@@ -32,6 +32,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { UsersService } from "src/@biostar/services/users.service";
 import { CreateEditComponent } from "../create-edit/create-edit.component";
 import { NgxSpinnerService } from "ngx-spinner";
+import { PrintOptionsService } from "src/@biostar/services/PrintOptions.service";
 import { CommonService } from "src/@biostar/services/common.service";
 
 @UntilDestroy()
@@ -78,35 +79,43 @@ export class ListComponent implements OnInit {
     // },
 
     {
-      label: "Name",
-      property: "name",
+      label: "backgroundPic",
+      property: "backgroundPic",
+      type: "array3",
+      cssClasses: ["text-secondary"],
+      visible: true,
+    },
+    {
+      label: "cardHight",
+      property: "cardHight",
       type: "text",
       cssClasses: ["text-secondary"],
       visible: true,
     },
     {
-      label: "Email",
-      property: "idx_email",
+      label: "cardWidth",
+      property: "cardWidth",
+      type: "text",
+      cssClasses: ["text-secondary"],
+      visible: true,
+    },
+    {
+      label: "fontSize",
+      property: "fontSize",
+      type: "text",
+      cssClasses: ["text-secondary"],
+      visible: true,
+    },
+    {
+      label: "fontStyle",
+      property: "fontStyle",
       type: "text",
       cssClasses: ["text-secondary"],
       visible: true,
     },
 
     
-    {
-      label: "Start Date",
-      property: "start_datetime",
-      type: "date",
-      cssClasses: ["font-medium"],
-      visible: true,
-    },
-    {
-      label: "Ecpiration Date",
-      property: "expiry_datetime",
-      type: "date",
-      cssClasses: ["font-medium"],
-      visible: true,
-    },
+    
     // {
     //   label: "user Issue Email",
     //   property: "userIssueEmail",
@@ -158,9 +167,10 @@ export class ListComponent implements OnInit {
 
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private UsersService: UsersService,
+    private PrintOptionsService: PrintOptionsService,
     private spinner: NgxSpinnerService,
     private commonService:CommonService
+
   ) {}
   get visibleColumns() {
     return this.columns
@@ -170,13 +180,11 @@ export class ListComponent implements OnInit {
 
 
   ngOnInit() {
-    // this.ViewTable();
-    console.log('users list');
-
-    this.getUsers();
+    console.log('print options list');
+    this.getPrintOptions();
   }
 
-  getUsers() {
+  getPrintOptions() {
     let params = {
       // IsPaid: true,
       // pageIndex: this.paginator.pageIndex + 1 || 1,
@@ -186,7 +194,7 @@ export class ListComponent implements OnInit {
     };
     this.spinner.show();
 
-    this.UsersService.getUsers(params).subscribe(
+    this.PrintOptionsService.getPrintOptions(params).subscribe(
       (res) => {
         this.dataSource = new MatTableDataSource();
         this.dataSource = res['data'].list.$values;
@@ -210,22 +218,22 @@ export class ListComponent implements OnInit {
   onDelete(row: any) {
     console.log(row);
     
-    // this.commonService.openConfirmDialog('Are you sure you want to delete this record ?')
-    //   .afterClosed().subscribe(res => {
-    //     if (res) {
-    //       this.deleteUser(Claim);
-    //     }
-    //   });
+    this.commonService.openConfirmDialog('Are you sure you want to delete this record ?')
+      .afterClosed().subscribe(res => {
+        if (res) {
+          this.deleteUser(row);
+        }
+      })
   }
   deleteUser(Claim: any) {
     /**
      * Here we are updating our local array.
      * You would probably make an HTTP request here.
      */
-    this.UsersService.deleteUserById(Claim.id).subscribe(
+    this.PrintOptionsService.deletePrintOptionsById(Claim.id).subscribe(
       (res: any) => {
         this.commonService.openSnackBar('done', 'x')
-        this.getUsers();
+        this.getPrintOptions();
 
       },
       (err) => {
@@ -289,7 +297,7 @@ export class ListComponent implements OnInit {
         })
         .afterClosed()
         .subscribe((str) => {
-          if (str == 'reload') this.getUsers();
+          if (str == 'reload') this.getPrintOptions();
         });
     
   

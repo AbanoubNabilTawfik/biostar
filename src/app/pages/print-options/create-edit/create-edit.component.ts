@@ -7,6 +7,7 @@ import { Patterns } from "src/@biostar/Constrants/Patterns";
 import { SharedService } from "src/@biostar/services/shared.service";
 import { PrintOptionsService } from "src/@biostar/services/PrintOptions.service";
 import { CommonService } from "src/@biostar/services/common.service";
+import { DomSanitizer } from "@angular/platform-browser";
 
 @Component({
   selector: "vex-create-edit",
@@ -22,7 +23,13 @@ export class CreateEditComponent implements OnInit {
   imgURL: string | ArrayBuffer = "";
   maxDate = new Date();
   minDate = new Date();
-  constructor(
+  CardWidth:any
+  CardHeight:any
+  FontStyle:any
+  FontSize:any
+  FontColor:any
+  formatedImage:any
+ constructor(
     private fb: FormBuilder,
     public SharedService: SharedService,
     private router: Router,
@@ -30,7 +37,9 @@ export class CreateEditComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private dialogRef: MatDialogRef<CreateEditComponent>,
     @Inject(MAT_DIALOG_DATA) public defaults: any,
-    private commonService:CommonService
+    private commonService:CommonService,
+    private sanitizer: DomSanitizer
+
   ) {}
 
   ngOnInit(): void {
@@ -38,11 +47,19 @@ export class CreateEditComponent implements OnInit {
     
     this.initForm();
   }
+  // displayBase64(){
+    
+  //   this.formatedImage =this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${this.imgURL}`);
+  //   console.log(this.formatedImage );
+    
+  //   return this.formatedImage
+  // }
+
   initForm() {
     this.Form = this.fb.group({
       BackgroundPic: ["", [Validators.required]],
       FontColor: [
-        "",
+        "#000000",
         [
           Validators.required,
           // Validators.minLength(3),
@@ -51,7 +68,7 @@ export class CreateEditComponent implements OnInit {
         ],
       ],
       FontSize: [
-        0,
+        1,
         [
           // Validators.required,
           // Validators.minLength(3),
@@ -59,10 +76,10 @@ export class CreateEditComponent implements OnInit {
           // Validators.pattern(Patterns.lettersorsymbolsorspaces),
         ],
       ],
-      FontStyle: ["", [Validators.required]],
+      FontStyle: ["normal", [Validators.required]],
 
       CardWidth: [
-        0,
+        1,
         [
           Validators.required,
           // Validators.minLength(3),
@@ -71,7 +88,7 @@ export class CreateEditComponent implements OnInit {
         ],
       ],
       CardHight: [
-        0,
+        1,
         [
           Validators.required,
           // Validators.minLength(3),
@@ -99,8 +116,12 @@ export class CreateEditComponent implements OnInit {
       );
       // this.newsImgB64 = imgBase6;
     };
+    // this.displayBase64()
   }
+  
   submit() {
+    console.log(this.Form);
+    
     const formData: FormData = new FormData();
 
     if (this.newsImgB64 !== undefined) {

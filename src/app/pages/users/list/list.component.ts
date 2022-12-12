@@ -33,6 +33,9 @@ import { UsersService } from "src/@biostar/services/users.service";
 import { CreateEditComponent } from "../create-edit/create-edit.component";
 import { NgxSpinnerService } from "ngx-spinner";
 import { CommonService } from "src/@biostar/services/common.service";
+import { DomSanitizer } from "@angular/platform-browser";
+import { DetailsComponent } from "../details/details.component";
+import { PrintOptionsService } from "src/@biostar/services/PrintOptions.service";
 
 @UntilDestroy()
 @Component({
@@ -69,13 +72,13 @@ export class ListComponent implements OnInit {
       visible: true,
       cssClasses: ["text-secondary", "font-medium"],
     },
-    // {
-    //   label: "Photo",
-    //   property: "photo",
-    //   type: "array3",
-    //   cssClasses: ["text-secondary"],
-    //   visible: true,
-    // },
+    {
+      label: "Photo",
+      property: "photo",
+      type: "array3",
+      cssClasses: ["text-secondary"],
+      visible: true,
+    },
 
     {
       label: "Name",
@@ -86,13 +89,12 @@ export class ListComponent implements OnInit {
     },
     {
       label: "Email",
-      property: "idx_email",
+      property: "email",
       type: "text",
       cssClasses: ["text-secondary"],
       visible: true,
     },
 
-    
     {
       label: "Start Date",
       property: "start_datetime",
@@ -152,6 +154,7 @@ export class ListComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   dataTable: any;
   filteredData: any;
+  PrintOptions: any;
 
   constructor(
     private dialog: MatDialog,
@@ -160,22 +163,51 @@ export class ListComponent implements OnInit {
     private router: Router,
     private UsersService: UsersService,
     private spinner: NgxSpinnerService,
-    private commonService:CommonService
+    private commonService: CommonService,
+    private sanitizer: DomSanitizer,
+    private PrintOptionsService: PrintOptionsService,
+
+    
   ) {}
   get visibleColumns() {
     return this.columns
       .filter((column) => column.visible)
       .map((column) => column.property);
   }
-
+  displayBase64(url) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(
+      `data:image/png;base64, ${url}`
+    );
+  }
 
   ngOnInit() {
     // this.ViewTable();
-    console.log('users list');
+    console.log("users list");
 
     this.getUsers();
+    this.getPrintOptions();
   }
 
+  getPrintOptions() {
+    let params = {
+      // IsPaid: true,
+      // pageIndex: this.paginator.pageIndex + 1 || 1,
+      // pageSize: this.paginator.pageSize || 10,
+      orderByProp: this.sort.active || "",
+      direction: this.sort.direction || "",
+    };
+    this.spinner.show();
+
+    this.PrintOptionsService.getPrintOptions(params).subscribe(
+      (res) => {
+        this.PrintOptions = res['data'].list.$values;
+ 
+        this.spinner.hide();
+
+      },
+      (err) => {}
+    );
+  }
   getUsers() {
     let params = {
       // IsPaid: true,
@@ -189,49 +221,50 @@ export class ListComponent implements OnInit {
     this.UsersService.getUsers(params).subscribe(
       (res) => {
         this.dataSource = new MatTableDataSource();
-        this.dataSource = res['data'].list.$values;
+        this.dataSource = res["data"].list.$values;
         this.filteredData = this.dataSource;
         // this.subject$.next( this.filteredData);
         this.spinner.hide();
-
       },
       (err) => {}
     );
   }
   ngAfterViewInit() {
-    this.dataSource['paginator'] = this.paginator;
-    this.dataSource['sort'] = this.sort;
+    // this.dataSource['paginator'] = this.paginator;
+    // this.dataSource['sort'] = this.sort;
   }
 
-  ViewDetails(issue) {
-    this.router.navigateByUrl(`issues/view-details/${issue.issueId}`);
+  ViewDetails(row) {
+    this.dialog
+      .open(DetailsComponent, {
+        data: {row:row,PrintOptions:this.PrintOptions }
+      })
+      .afterClosed()
+      .subscribe((str) => {});
   }
 
   onDelete(row: any) {
     console.log(row);
-    
-    // this.commonService.openConfirmDialog('Are you sure you want to delete this record ?')
-    //   .afterClosed().subscribe(res => {
-    //     if (res) {
-    //       this.deleteUser(Claim);
-    //     }
-    //   });
-  }
-  deleteUser(Claim: any) {
-    /**
-     * Here we are updating our local array.
-     * You would probably make an HTTP request here.
-     */
-    this.UsersService.deleteUserById(Claim.id).subscribe(
-      (res: any) => {
-        this.commonService.openSnackBar('done', 'x')
-        this.getUsers();
 
+    this.commonService
+      .openConfirmDialog("Are you sure you want to delete this record ?")
+      .afterClosed()
+      .subscribe((res) => {
+        if (res) {
+          this.deleteUser(row);
+        }
+      });
+  }
+  deleteUser(row: any) {
+    this.UsersService.deleteUserById(row.useru_id).subscribe(
+      (res: any) => {
+        this.commonService.openSnackBar("done", "x");
+        this.getUsers();
       },
       (err) => {
-        this.commonService.openSnackBarError('error', 'x');
-      },
-    )
+        this.commonService.openSnackBarError("error", "x");
+      }
+    );
   }
 
   deleteIssues(Issues: any[]) {
@@ -282,18 +315,14 @@ export class ListComponent implements OnInit {
   }
   updateClaim(claim) {}
   openCreateEdit(row) {
-
-      this.dialog
-        .open(CreateEditComponent, {
-          data: row,
-        })
-        .afterClosed()
-        .subscribe((str) => {
-          if (str == 'reload') this.getUsers();
-        });
-    
-  
-    
+    this.dialog
+      .open(CreateEditComponent, {
+        data: row,
+      })
+      .afterClosed()
+      .subscribe((str) => {
+        if (str == "reload") this.getUsers();
+      });
   }
   SendMessage(Issue) {
     // this.dialog.open(SendMessageComponent, {
@@ -305,18 +334,21 @@ export class ListComponent implements OnInit {
     // })
   }
 
-//   convertBase64(dataurl, filename?) {
- 
-//     var arr = dataurl.split(','),
-//         mime = arr[0].match(/:(.*?);/)[1],
-//         bstr = atob(arr[1]), 
-//         n = bstr.length, 
-//         u8arr = new Uint8Array(n);
-        
-//     while(n--){
-//         u8arr[n] = bstr.charCodeAt(n);
-//     }
-    
-//     return new File([u8arr], filename, {type:mime});
-// }
+  //   convertBase64(dataurl, filename?) {
+
+  //     var arr = dataurl.split(','),
+  //         mime = arr[0].match(/:(.*?);/)[1],
+  //         bstr = atob(arr[1]),
+  //         n = bstr.length,
+  //         u8arr = new Uint8Array(n);
+
+  //     while(n--){
+  //         u8arr[n] = bstr.charCodeAt(n);
+  //     }
+
+  //     return new File([u8arr], filename, {type:mime});
+  // }
+  printUser() {
+    window.print();
+  }
 }

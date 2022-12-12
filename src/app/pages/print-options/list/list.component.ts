@@ -34,6 +34,7 @@ import { CreateEditComponent } from "../create-edit/create-edit.component";
 import { NgxSpinnerService } from "ngx-spinner";
 import { PrintOptionsService } from "src/@biostar/services/PrintOptions.service";
 import { CommonService } from "src/@biostar/services/common.service";
+import { DomSanitizer } from "@angular/platform-browser";
 
 @UntilDestroy()
 @Component({
@@ -79,35 +80,35 @@ export class ListComponent implements OnInit {
     // },
 
     {
-      label: "backgroundPic",
+      label: "background image",
       property: "backgroundPic",
       type: "array3",
       cssClasses: ["text-secondary"],
       visible: true,
     },
     {
-      label: "cardHight",
+      label: "card Hight",
       property: "cardHight",
       type: "text",
       cssClasses: ["text-secondary"],
       visible: true,
     },
     {
-      label: "cardWidth",
+      label: "card Width",
       property: "cardWidth",
       type: "text",
       cssClasses: ["text-secondary"],
       visible: true,
     },
     {
-      label: "fontSize",
+      label: "font Size",
       property: "fontSize",
       type: "text",
       cssClasses: ["text-secondary"],
       visible: true,
     },
     {
-      label: "fontStyle",
+      label: "font Style",
       property: "fontStyle",
       type: "text",
       cssClasses: ["text-secondary"],
@@ -169,7 +170,8 @@ export class ListComponent implements OnInit {
     private router: Router,
     private PrintOptionsService: PrintOptionsService,
     private spinner: NgxSpinnerService,
-    private commonService:CommonService
+    private commonService:CommonService,
+    private sanitizer: DomSanitizer
 
   ) {}
   get visibleColumns() {
@@ -178,6 +180,9 @@ export class ListComponent implements OnInit {
       .map((column) => column.property);
   }
 
+  displayBase64(url){
+    return this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${url}`);
+  }
 
   ngOnInit() {
     console.log('print options list');

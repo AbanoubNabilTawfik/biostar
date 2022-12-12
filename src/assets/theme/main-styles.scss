@@ -17,3 +17,7 @@
     color: white;
     width: fit-content;
 }
+
+::ng-deep table tr.mat-row {
+    height: 66px!important;
+}

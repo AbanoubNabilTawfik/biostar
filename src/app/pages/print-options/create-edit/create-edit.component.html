@@ -17,7 +17,7 @@
           <form [formGroup]="Form">
             <div class="row">
               <div class="col-lg-6">
-                <div style="display: flex; justify-content: center">
+                <!-- <div style="display: flex; justify-content: center">
                   <img
                     *ngIf="imgURL !== ''"
                     height="200"
@@ -25,21 +25,20 @@
                     [src]="imgURL"
                     style="border-radius: 50%"
                   />
-                </div>
+                </div> -->
 
-                <div class="image-upload" *ngIf="imgURL == ''">
+                <div class="image-upload" >
                   <label for="file-input">
                     <img src="assets/img/demo/Frame.png" />
                     <p *ngIf="imgName !== '' || imgName !== undefined">
                       {{ imgName }}
                     </p>
                     <p *ngIf="imgName == '' || imgName == undefined">
-                      {{ "Add Company Logo" | translate }}
+                      {{ "Add Company Logo" | translate }} *
                     </p>
                   </label>
 
                   <input
-                    *ngIf="imgURL == ''"
                     id="file-input"
                     type="file"
                     #file
@@ -49,8 +48,12 @@
                 </div>
                 <div class="form-group" style="margin-bottom: 0">
                   <mat-form-field appearance="fill" style="width: 100%">
-                    <mat-label>{{ "Font Style" | translate }}</mat-label>
-                    <mat-select disableRipple formControlName="FontStyle">
+                    <mat-label>{{ "Font Style" | translate }} *</mat-label>
+                    <mat-select
+                      disableRipple
+                      formControlName="FontStyle"
+                      [(ngModel)]="FontStyle"
+                    >
                       <mat-option value="normal">normal</mat-option>
                       <mat-option value="italic">italic</mat-option>
                       <mat-option value="oblique">oblique</mat-option>
@@ -89,6 +92,7 @@
                     class="form-control input-value"
                     name="FontSize"
                     formControlName="FontSize"
+                    [(ngModel)]="FontSize"
                   />
                 </div>
                 <div class="form-group">
@@ -100,6 +104,7 @@
                     class="form-control input-value"
                     name="FontColor"
                     formControlName="FontColor"
+                    [(ngModel)]="FontColor"
                   />
 
                   <div
@@ -120,12 +125,13 @@
                 <div class="form-group">
                   <label class="label-key mt-2">{{
                     "Card Width" | translate
-                  }}</label>
+                  }}*</label>
                   <input
                     type="number"
                     class="form-control input-value"
                     name="CardWidth"
                     formControlName="CardWidth"
+                    [(ngModel)]="CardWidth"
                   />
 
                   <div
@@ -146,12 +152,13 @@
                 <div class="form-group">
                   <label class="label-key mt-2">{{
                     "Card height" | translate
-                  }}</label>
+                  }} *</label>
                   <input
                     type="number"
                     class="form-control input-value"
                     name="CardHight"
                     formControlName="CardHight"
+                    [(ngModel)]="CardHeight"
                   />
 
                   <div
@@ -169,17 +176,31 @@
                     </div>
                   </div>
                 </div>
- 
               </div>
               <div class="col-lg-6">
-                <!-- [ngStyle]="{'background-image':' url({{imgURL}})'}" -->
-                <!-- [attr.style]="'background-image':' url({{imgURL}})'" -->
-                <div class="card"
-                style="height: 100px; width: auto;"
-                [ngStyle]="{'background-color':'green'}"
-                
-                
-                ></div>
+
+                <!-- [ngStyle]="{'background-image': 'url( imgURL )'}" -->
+                <!-- [style.background]="'url( imgURL )'" -->
+                <div style="display: flex; justify-content: center">
+
+                <div
+                class="card"
+                [ngStyle]="{'background-image':'url(;'+ imgURL +')'}"
+                [style.width.cm]="CardWidth"
+                [style.height.cm]="CardHeight"
+                style="background-size: cover;border-radius: 16px;"
+
+                >
+                  <p
+                    [style.font-style]="FontStyle"
+                    [style.font-size.px]="FontSize"
+                    [style.color]="FontColor"
+                  >
+                    test paragraph
+                  </p>
+                </div>
+              </div>
+
               </div>
             </div>
           </form>

@@ -196,7 +196,11 @@
               {{ column.label }}
             </th>
             <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>
-              <img [src]="row[column.property]" alt="" />
+              <img
+                [src]="displayBase64(row[column.property])"
+                style="width: 30px; height: 30px; border-radius: 50%"
+                onerror="this.src='assets/img/demo/user.png'"
+              />
             </td>
           </ng-container>
         </ng-container>
@@ -348,6 +352,14 @@
 
   <mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
     <ng-template let-Issue="Issue" matMenuContent>
+      <button (click)="ViewDetails(Issue)" mat-menu-item>
+        <mat-icon>preview</mat-icon>
+        <span>{{ "Details" | translate }}</span>
+      </button>
+      <button (click)="printUser()" mat-menu-item>
+        <mat-icon> print </mat-icon>
+        <span>{{ "Print" | translate }}</span>
+      </button>
       <button (click)="openCreateEdit(Issue)" mat-menu-item>
         <mat-icon [icIcon]="icEdit"></mat-icon>
         <span>{{ "Update" | translate }}</span>
@@ -360,12 +372,11 @@
   </mat-menu>
 </div>
 <ngx-spinner
-    bdColor="rgba(51,51,51,0.8)"
-    size="default"
-    color="#fff"
-    type="ball-spin-clockwise"
-    [fullScreen]="true"
-  >
-    <p style="color: white">{{ "Please Wait." | translate }}</p>
-  </ngx-spinner>
-  
+  bdColor="rgba(51,51,51,0.8)"
+  size="default"
+  color="#fff"
+  type="ball-spin-clockwise"
+  [fullScreen]="true"
+>
+  <p style="color: white">{{ "Please Wait." | translate }}</p>
+</ngx-spinner>

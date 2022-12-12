@@ -1,1 +1,19 @@
-<p>details works!</p>
+<div style="display: flex; justify-content: center">
+
+    <div
+    class="card"
+    [ngStyle]="{'background-image':'url(;'+ imgURL +')'}"
+    [style.width.cm]="CardWidth"
+    [style.height.cm]="CardHeight"
+    style="background-size: cover;border-radius: 16px;"
+
+    >
+      <p
+        [style.font-style]="FontStyle"
+        [style.font-size.px]="FontSize"
+        [style.color]="FontColor"
+      >
+        test paragraph
+      </p>
+    </div>
+  </div>

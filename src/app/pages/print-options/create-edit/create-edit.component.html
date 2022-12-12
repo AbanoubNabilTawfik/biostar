@@ -217,7 +217,7 @@
                 style="background-size: cover;border-radius: 16px;"
 
                 >
-                <img *ngIf="imgURL == ''" [src]="displayBase64(defaults.backgroundPic)" alt="">
+                <img *ngIf="this.defaults !== null" [src]="displayBase64(defaults.backgroundPic)" alt="">
 
                   <p
                     [style.font-style]="FontStyle"

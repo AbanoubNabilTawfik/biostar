@@ -54,6 +54,8 @@ import { PrintOptionsService } from "src/@biostar/services/PrintOptions.service"
 })
 export class ListComponent implements OnInit {
   layoutCtrl = new FormControl("boxed");
+  fromId = new FormControl('');
+  toId = new FormControl('');
 
   /**
    * Simulating a service with HTTP that returns Observables
@@ -94,7 +96,13 @@ export class ListComponent implements OnInit {
       cssClasses: ["text-secondary"],
       visible: true,
     },
-
+    {
+      label: "User Id",
+      property: "user_id",
+      type: "text",
+      cssClasses: ["text-secondary"],
+      visible: true,
+    },
     {
       label: "Start Date",
       property: "start_datetime",
@@ -109,13 +117,7 @@ export class ListComponent implements OnInit {
       cssClasses: ["font-medium"],
       visible: true,
     },
-    // {
-    //   label: "user Issue Email",
-    //   property: "userIssueEmail",
-    //   type: "text",
-    //   cssClasses: ["text-secondary"],
-    //   visible: true,
-    // },
+
     // {
     //   label: "status",
     //   property: "statusStr",
@@ -181,9 +183,6 @@ export class ListComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.ViewTable();
-    console.log("users list");
-
     this.getUsers();
     this.getPrintOptions();
   }
@@ -209,6 +208,7 @@ export class ListComponent implements OnInit {
     );
   }
   getUsers() {
+
     let params = {
       // IsPaid: true,
       // pageIndex: this.paginator.pageIndex + 1 || 1,
@@ -218,7 +218,7 @@ export class ListComponent implements OnInit {
     };
     this.spinner.show();
 
-    this.UsersService.getUsers(params).subscribe(
+    this.UsersService.getUsers(this.fromId.value , this.toId.value).subscribe(
       (res) => {
         this.dataSource = new MatTableDataSource();
         this.dataSource = res["data"].list.$values;
@@ -226,7 +226,10 @@ export class ListComponent implements OnInit {
         // this.subject$.next( this.filteredData);
         this.spinner.hide();
       },
-      (err) => {}
+      (err) => {
+        this.spinner.hide();
+
+      }
     );
   }
   ngAfterViewInit() {
@@ -234,14 +237,15 @@ export class ListComponent implements OnInit {
     // this.dataSource['sort'] = this.sort;
   }
 
-  ViewDetails(row) {
+  ViewDetails(row,view) {
     this.dialog
       .open(DetailsComponent, {
-        data: {row:row,PrintOptions:this.PrintOptions }
+        data: {row:row,PrintOptions:this.PrintOptions , view:view}
       })
       .afterClosed()
       .subscribe((str) => {});
   }
+
 
   onDelete(row: any) {
     console.log(row);
@@ -334,21 +338,6 @@ export class ListComponent implements OnInit {
     // })
   }
 
-  //   convertBase64(dataurl, filename?) {
 
-  //     var arr = dataurl.split(','),
-  //         mime = arr[0].match(/:(.*?);/)[1],
-  //         bstr = atob(arr[1]),
-  //         n = bstr.length,
-  //         u8arr = new Uint8Array(n);
 
-  //     while(n--){
-  //         u8arr[n] = bstr.charCodeAt(n);
-  //     }
-
-  //     return new File([u8arr], filename, {type:mime});
-  // }
-  printUser() {
-    window.print();
-  }
 }

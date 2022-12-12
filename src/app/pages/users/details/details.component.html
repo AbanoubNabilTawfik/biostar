@@ -1,19 +1,149 @@
-<div style="display: flex; justify-content: center">
+<div class="container">
 
-    <div
-    class="card"
-    [ngStyle]="{'background-image':'url(;'+ imgURL +')'}"
-    [style.width.cm]="CardWidth"
-    [style.height.cm]="CardHeight"
-    style="background-size: cover;border-radius: 16px;"
-
-    >
-      <p
-        [style.font-style]="FontStyle"
-        [style.font-size.px]="FontSize"
-        [style.color]="FontColor"
-      >
-        test paragraph
-      </p>
-    </div>
+  <div
+    *ngIf="this.defaults.view == 'Details'"
+    mat-dialog-title
+    style="display: flex; justify-content: space-between"
+  >
+    <h6 class="userInfo">
+      {{ "Print User" | translate }}
+    </h6>
+    <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+      <mat-icon>close</mat-icon>
+    </button>
   </div>
+  <mat-dialog-content>
+    <div
+      class="custom-card-content row"
+      id="print-sec"
+      *ngFor="let card of cards"
+    >
+      <div class="col-md-6 col-sm-6">
+        <h6>{{ "front" | translate }}</h6>
+        <div>
+          <div
+            class="custom-card"
+            [style.width.cm]="this.defaults?.PrintOptions[4].cardWidth"
+            [style.height.cm]="this.defaults?.PrintOptions[4].cardHight"
+            style="
+              background-size: cover;
+              border-radius: 16px;
+              position: relative;
+            "
+          >
+            <img
+              [src]="displayBase64(card?.photo)"
+              style="
+                position: absolute;
+                z-index: 2;
+                border-radius: 50%;
+                top: 16%;
+                right: 16%;
+                width: 117px;
+                height: 117px;
+              "
+              onerror="this.src='assets/img/demo/user.png'"
+              alt=""
+            />
+            <img
+              [src]="displayBase64(defaults?.PrintOptions[4].backgroundPic)"
+              alt=""
+              style="position: absolute; z-index: 1; height: 100%"
+            />
+            <div
+              style="
+                position: absolute;
+                z-index: 3;
+                top: 50%;
+                text-align: center;
+                right: 26%;
+              "
+            >
+              <p
+                [style.font-style]="this.defaults?.PrintOptions[4].fontStyle"
+                [style.font-size.px]="this.defaults?.PrintOptions[4].fontSize"
+                [style.color]="this.defaults?.PrintOptions[4].fontColor"
+                style="font-weight: bold"
+              >
+                {{ card.name || "N/A" }}
+              </p>
+              <p
+                [style.font-style]="this.defaults?.PrintOptions[4].fontStyle"
+                [style.font-size.px]="this.defaults?.PrintOptions[4].fontSize"
+                [style.color]="this.defaults?.PrintOptions[4].fontColor"
+              >
+                {{ card.user_id || "N/A" }}
+              </p>
+  
+              <p
+                [style.font-style]="this.defaults?.PrintOptions[4].fontStyle"
+                [style.font-size.px]="this.defaults?.PrintOptions[4].fontSize"
+                [style.color]="this.defaults?.PrintOptions[4].fontColor"
+              >
+                {{ card.user_title || "N/A" }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-6">
+        <h6>{{ "back" | translate }}</h6>
+        <div>
+          <div
+            class="custom-card"
+            [style.width.cm]="this.defaults?.PrintOptions[4].cardWidth"
+            [style.height.cm]="this.defaults?.PrintOptions[4].cardHight"
+            style="
+              background-size: cover;
+              border-radius: 16px;
+              position: relative;
+            "
+          >
+            <img
+              [src]="displayBase64(defaults?.PrintOptions[4].backgroundPic)"
+              alt=""
+              style="position: absolute; z-index: 1; height: 100%"
+            />
+            <div
+              style="
+                position: absolute;
+                z-index: 3;
+                top: 50%;
+                text-align: center;
+                right: 35%;
+              "
+            >
+              <p
+                [style.font-style]="this.defaults?.PrintOptions[4].fontStyle"
+                [style.font-size.px]="this.defaults?.PrintOptions[4].fontSize"
+                [style.color]="this.defaults?.PrintOptions[4].fontColor"
+              >
+                {{ card.department || "N/A" }}
+              </p>
+              <p
+                [style.font-style]="this.defaults?.PrintOptions[4].fontStyle"
+                [style.font-size.px]="this.defaults?.PrintOptions[4].fontSize"
+                [style.color]="this.defaults?.PrintOptions[4].fontColor"
+              >
+                {{ card.phone || "N/A" }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+  
+  <mat-dialog-actions align="end">
+    <div class="main-stepper-btn" *ngIf="defaults.view == 'Print'">
+      <button
+        class="btn-gred"
+        (click)="printUser()"
+        mat-raised-button
+        color="primary"
+      >
+        print
+      </button>
+    </div>
+  </mat-dialog-actions>
+</div>

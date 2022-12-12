@@ -212,8 +212,10 @@ export class ListComponent implements OnInit {
     );
   }
   ngAfterViewInit() {
-    this.dataSource['paginator'] = this.paginator;
-    this.dataSource['sort'] = this.sort;
+    // console.log(this.dataSource['paginator']);
+    
+    // this.dataSource['paginator'] = this.paginator;
+    // this.dataSource['sort'] = this.sort;
   }
 
   ViewDetails(issue) {

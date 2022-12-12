@@ -145,6 +145,41 @@ export class AppComponent {
 
     this.navigationService.items =navigationItems
   }
+  checkLanguage() {
+    let languageFromLocalStorage = localStorage.getItem('displayDirection');
+    if (languageFromLocalStorage != null) {
+      this.translate.use(languageFromLocalStorage);
+      if (languageFromLocalStorage == 'total.ar') {
+        // this.layoutService.enableRTL();
+        this.document.body.dir = 'rtl';
+        localStorage.setItem("UserLanguage", "ar");
+
+        this.configService.updateConfig({
+          rtl: true
+        });
+      }
+      else {
+        //this.layoutService.disableRTL();
+        this.document.body.dir = 'ltr';
+        localStorage.setItem("UserLanguage", "en");
+
+        this.configService.updateConfig({
+          rtl: false
+        });
+      }
+
+    }
+    else {
+      this.translate.use('total.en')
+      localStorage.setItem("UserLanguage", "en");
+
+      this.document.body.dir = 'ltr';
+      this.configService.updateConfig({
+        rtl: false
+      });
+
+    }
+  }
   prepareRoute(outlet: RouterOutlet) {
     return outlet && outlet.activatedRouteData && outlet.activatedRouteData.animation;
   }

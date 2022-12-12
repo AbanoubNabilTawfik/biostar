@@ -10,8 +10,8 @@ export class UsersService {
 constructor(
   private http: HttpClient
 ) { }
-getUsers(model: any) {
-  return this.http.get(UsersController.Users, model);
+getUsers(fromid: any , toid :any) {
+  return this.http.get(`${UsersController.Users}?fromid=${fromid}&toid=${toid}`);
 }
 getUserById(id: any) {
   return this.http.get(`${UsersController.Users}/${id}`);

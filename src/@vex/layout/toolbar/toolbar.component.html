@@ -101,21 +101,21 @@
   <span fxFlex></span>
 
   <div class="-mx-1 flex items-center">
-    <div class="px-1">
+    <!-- <div class="px-1">
       <button (click)="openSearch()" mat-icon-button type="button">
         <mat-icon [icIcon]="icSearch"></mat-icon>
       </button>
-    </div>
+    </div> -->
 
-    <div class="px-1">
+    <!-- <div class="px-1">
       <vex-toolbar-notifications></vex-toolbar-notifications>
-    </div>
+    </div> -->
 
-    <div class="px-1">
+    <!-- <div class="px-1">
       <button (click)="openQuickpanel()" mat-icon-button type="button">
         <mat-icon [icIcon]="icBookmarks"></mat-icon>
       </button>
-    </div>
+    </div> -->
 
     <div class="px-1">
       <button [matMenuTriggerFor]="languageMenu" mat-icon-button type="button">
@@ -133,12 +133,12 @@
       xPosition="before"
       yPosition="below"
     >
-      <button mat-menu-item (click)="changeLang('en'); layoutService.disableRTL()">
+      <button mat-menu-item (click)="changeLang('en'); disableRTL()">
         <mat-icon [icIcon]="emojioneUS"></mat-icon>
         <span>English</span>
       </button>
 
-      <button mat-menu-item (click)="changeLang('ar'); layoutService.enableRTL()">
+      <button mat-menu-item (click)="changeLang('ar');enableRTL()">
         <mat-icon [icIcon]="emojioneSA"></mat-icon>
         <span>العربية</span>
       </button>

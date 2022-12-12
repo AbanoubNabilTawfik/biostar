@@ -33,7 +33,7 @@
 
         <div
           class="bg-card rounded-full border px-4"
-          fxFlex="400px"
+          fxFlex="200px"
           fxFlex.lt-md="auto"
           fxHide.xs
           fxLayout="row"
@@ -42,11 +42,38 @@
           <ic-icon [icIcon]="icSearch" size="20px"></ic-icon>
           <input
             [formControl]="searchCtrl"
-            class="px-4 py-3 border-0 outline-none w-full bg-transparent"
+            class="px-4 py-2 border-0 outline-none w-full bg-transparent"
             placeholder="{{ 'Search...' | translate }}"
             type="search"
           />
         </div>
+        <div class="bg-card rounded-full border px-4" fxFlex="100px">
+          <input
+            [formControl]="fromId"
+            class="px-4 py-2 border-0 outline-none w-full bg-transparent"
+            placeholder="{{ 'from...' | translate }}"
+            type="text"
+          />
+        </div>
+        <div class="bg-card rounded-full border px-4" fxFlex="100px">
+          <input
+            [formControl]="toId"
+            class="px-4 py-2 border-0 outline-none w-full bg-transparent"
+            placeholder="{{ 'to...' | translate }}"
+            type="text"
+          />
+        </div>
+        <button
+          (click)="getUsers()"
+          class="ml-4"
+          color="primary"
+          fxFlex="none"
+          mat-mini-fab
+          matTooltip="{{ 'Search...' | translate }}"
+          type="button"
+        >
+          <ic-icon [icIcon]="icSearch" size="20px"></ic-icon>
+        </button>
 
         <span fxFlex></span>
 
@@ -70,7 +97,15 @@
         >
           <mat-icon [icIcon]="icFilterList"></mat-icon>
         </button>
-
+        <button
+          (click)="ViewDetails(filteredData, 'Print')"
+          class="ml-4"
+          color="primary"
+          fxFlex="none"
+          mat-mini-fab
+        >
+          <mat-icon> print </mat-icon>
+        </button>
         <button
           (click)="openCreateEdit(null)"
           class="ml-4"
@@ -352,11 +387,11 @@
 
   <mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
     <ng-template let-Issue="Issue" matMenuContent>
-      <button (click)="ViewDetails(Issue)" mat-menu-item>
+      <button (click)="ViewDetails([Issue], 'Details')" mat-menu-item>
         <mat-icon>preview</mat-icon>
         <span>{{ "Details" | translate }}</span>
       </button>
-      <button (click)="printUser()" mat-menu-item>
+      <button (click)="ViewDetails([Issue], 'Print')" mat-menu-item>
         <mat-icon> print </mat-icon>
         <span>{{ "Print" | translate }}</span>
       </button>

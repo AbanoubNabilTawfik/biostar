@@ -34,7 +34,7 @@ export class CreateEditComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log("users create");
+    console.log(this.defaults);
     this.GetGender();
     this.GetGroups();
     this.initForm();
@@ -44,7 +44,7 @@ export class CreateEditComponent implements OnInit {
 
     this.UsersService.GetGender().subscribe(
       (res) => {
-        this.genders =res['data'].list.$values;
+        this.genders = res["data"].list.$values;
         this.spinner.hide();
       },
       (err) => {}
@@ -55,7 +55,7 @@ export class CreateEditComponent implements OnInit {
 
     this.UsersService.GetGroups().subscribe(
       (res) => {
-        this.groups =res['data'].list.$values;
+        this.groups = res["data"].list.$values;
 
         this.spinner.hide();
       },
@@ -65,16 +65,8 @@ export class CreateEditComponent implements OnInit {
 
   initForm() {
     this.Form = this.fb.group({
-      gender: ["", [Validators.required]],
-      title: [
-        "",
-        [
-          Validators.required,
-          // Validators.minLength(3),
-          // Validators.maxLength(50),
-          // Validators.pattern(Patterns.lettersorsymbolsorspaces),
-        ],
-      ],
+      gender: ["", this.defaults == null ? [Validators.required] : []],
+      title: ["", this.defaults == null ? [Validators.required] : []],
       name: [
         "",
         [
@@ -132,25 +124,26 @@ export class CreateEditComponent implements OnInit {
           // Validators.pattern(Patterns.lettersorsymbolsorspaces),
         ],
       ],
-      department: [
-        1,
-        [
-          Validators.required,
-          // Validators.minLength(3),
-          // Validators.maxLength(50),
-          // Validators.pattern(Patterns.lettersorsymbolsorspaces),
-        ],
-      ],
-      user_title: [
-        " ",
-        [
-          Validators.required,
-          // Validators.minLength(3),
-          // Validators.maxLength(50),
-          // Validators.pattern(Patterns.lettersorsymbolsorspaces),
-        ],
-      ],
+      department: [1, this.defaults == null ? [Validators.required] : []],
+      user_title: [" ", this.defaults == null ? [Validators.required] : []],
     });
+    if (this.defaults !== null) {
+      this.Form.get("title").patchValue(this.defaults?.title);
+      this.Form.get("name").patchValue(this.defaults?.name);
+      this.Form.get("email").patchValue(this.defaults?.email);
+      this.Form.get("phone").patchValue(this.defaults?.phone);
+      this.Form.get("user_id").patchValue(this.defaults?.user_id);
+      this.Form.get("user_group_id").patchValue(this.defaults?.user_group_id);
+      this.Form.get("start_datetime").patchValue(
+        new Date(this.defaults?.start_datetime)
+      );
+      this.Form.get("expiry_datetime").patchValue(
+        new Date(this.defaults?.expiry_datetime)
+      );
+      this.Form.get("user_ip").patchValue(this.defaults?.user_ip);
+      this.Form.get("department").patchValue(this.defaults?.department);
+      this.Form.get("user_title").patchValue(this.defaults?.user_title);
+    }
   }
   preview(files: any) {
     // console.log(files)
@@ -174,8 +167,18 @@ export class CreateEditComponent implements OnInit {
   submit() {
     const formData: FormData = new FormData();
 
-    formData.append("gender", this.Form.controls["gender"].value.toString());
-    formData.append("title", this.Form.controls["title"].value.toString());
+    if (this.defaults == null) {
+      formData.append("gender", this.Form.controls["gender"].value.toString());
+      formData.append("title", this.Form.controls["title"].value.toString());
+      formData.append(
+        "department",
+        this.Form.controls["department"].value.toString()
+      );
+      formData.append(
+        "user_title",
+        this.Form.controls["user_title"].value.toString()
+      );
+    }
     formData.append("name", this.Form.controls["name"].value.toString());
     formData.append("email", this.Form.controls["email"].value.toString());
 
@@ -198,31 +201,32 @@ export class CreateEditComponent implements OnInit {
     );
     formData.append("user_ip", this.Form.controls["user_ip"].value.toString());
     // formData.append('ShortAddress', this.Form.controls['priceType'].value.toString());
-    formData.append(
-      "department",
-      this.Form.controls["department"].value.toString()
-    );
-    formData.append(
-      "user_title",
-      this.Form.controls["user_title"].value.toString()
-    );
-    console.log(formData);
-
-    console.log(this.Form);
 
     this.spinner.show();
-
+    if(this.defaults == null){ 
     this.UsersService.setUsers(formData).subscribe(
       (response: any) => {
-          this.dialogRef.close("reload");
-          // this.alertifyService.success(response.message);
-
-       
+        this.dialogRef.close("reload");
+        // this.alertifyService.success(response.message);
       },
       (error: Error) => {
         this.spinner.hide();
         // this.alertifyService.error('technical error ');
       }
     );
+    }
+    else{
+
+      this.UsersService.updateUserById(this.defaults.useru_id ,formData).subscribe(
+        (response: any) => {
+          this.dialogRef.close("reload");
+          // this.alertifyService.success(response.message);
+        },
+        (error: Error) => {
+          this.spinner.hide();
+          // this.alertifyService.error('technical error ');
+        }
+      );
+    }
   }
 }

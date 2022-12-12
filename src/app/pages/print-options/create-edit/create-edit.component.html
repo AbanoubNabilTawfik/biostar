@@ -1,19 +1,18 @@
-<div mat-dialog-title style="display: flex; justify-content: space-between">
+<!-- <div mat-dialog-title style="display: flex; justify-content: space-between">
   <h6 class="userInfo">
-    {{ "Create New User" | translate }}
+    {{ "Create New Print Option" | translate }}
 
-    <!-- {{ "Edit User Information" | translate }} -->
   </h6>
   <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
     <mat-icon>close</mat-icon>
   </button>
-</div>
+</div> -->
 <mat-dialog-content>
   <div [dir]="SharedService.dir() == 'en' ? 'ltr' : 'rtl'">
     <div class="row user-containt">
       <div class="col-lg-12 position-relative user-create bg-white">
         <div class="container bg-white">
-          <h6 class="userInfo">{{ "User Information" | translate }}</h6>
+          <h6 class="userInfo">{{ "Print Options Information" | translate }}</h6>
           <form [formGroup]="Form">
             <div class="row">
               <div class="col-lg-6">
@@ -22,7 +21,7 @@
                     *ngIf="imgURL !== ''"
                     height="200"
                     width="200"
-                    [src]="imgURL"
+                    [src]="displayBase64 (defaults.backgroundPic)"
                     style="border-radius: 50%"
                   />
                 </div> -->
@@ -46,7 +45,36 @@
                     accept="image/*"
                   />
                 </div>
-                <div class="form-group" style="margin-bottom: 0">
+                <div class="form-group" style="margin-block: 15px">
+                  <mat-form-field appearance="fill" style="width: 100%">
+                    <mat-label>{{ "Card face" | translate }} *</mat-label>
+                    <mat-select
+                      disableRipple
+                      formControlName="IsBack"
+                      [(ngModel)]="IsBack"
+                    >
+                      <mat-option value="false">front</mat-option>
+                      <mat-option value="true">back</mat-option>
+                 
+                    </mat-select>
+                  </mat-form-field>
+
+                  <div
+                    *ngIf="
+                      Form.get('IsBack')?.touched &&
+                      Form.get('IsBack')?.errors
+                    "
+                  >
+                    <div>
+                      <mat-error
+                        *ngIf="Form.get('IsBack')?.errors['required']"
+                      >
+                        {{ "this field is required" | translate }}
+                      </mat-error>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group" style="margin-block: 15px">
                   <mat-form-field appearance="fill" style="width: 100%">
                     <mat-label>{{ "Font Style" | translate }} *</mat-label>
                     <mat-select
@@ -124,7 +152,7 @@
                 </div>
                 <div class="form-group">
                   <label class="label-key mt-2">{{
-                    "Card Width" | translate
+                    "Card Width in cm " | translate
                   }}*</label>
                   <input
                     type="number"
@@ -151,7 +179,7 @@
                 </div>
                 <div class="form-group">
                   <label class="label-key mt-2">{{
-                    "Card height" | translate
+                    "Card height in cm" | translate
                   }} *</label>
                   <input
                     type="number"
@@ -178,19 +206,19 @@
                 </div>
               </div>
               <div class="col-lg-6">
-
-                <!-- [ngStyle]="{'background-image': 'url( imgURL )'}" -->
-                <!-- [style.background]="'url( imgURL )'" -->
                 <div style="display: flex; justify-content: center">
 
                 <div
                 class="card"
-                [ngStyle]="{'background-image':'url(;'+ imgURL +')'}"
+                
+                [ngStyle]="{'background-image':'url( ;'+ imgURL+')'}"
                 [style.width.cm]="CardWidth"
                 [style.height.cm]="CardHeight"
                 style="background-size: cover;border-radius: 16px;"
 
                 >
+                <img *ngIf="imgURL == ''" [src]="displayBase64(defaults.backgroundPic)" alt="">
+
                   <p
                     [style.font-style]="FontStyle"
                     [style.font-size.px]="FontSize"

@@ -71,7 +71,7 @@ export class ToolbarComponent implements OnInit {
   icArrowDropDown = icArrowDropDown;
   isLangAr: boolean = false;
   constructor(
-    public layoutService: LayoutService,
+    private layoutService: LayoutService,
     private configService: ConfigService,
     private navigationService: NavigationService,
     public SharedService: SharedService,
@@ -120,5 +120,14 @@ export class ToolbarComponent implements OnInit {
       ? (this.isLangAr = true)
       : (this.isLangAr = false);
     return this.isLangAr;
+  }
+
+  disableRTL(){
+    this.layoutService.disableRTL()
+
+  }
+  enableRTL(){
+    this.layoutService.enableRTL()
+
   }
 }

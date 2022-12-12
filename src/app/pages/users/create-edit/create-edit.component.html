@@ -34,7 +34,7 @@
                       {{ imgName }}
                     </p>
                     <p *ngIf="imgName == '' || imgName == undefined">
-                      {{ "Add Company Logo" | translate }}
+                      {{ "Add User Image" | translate }}
                     </p>
                   </label>
 
@@ -49,7 +49,7 @@
                 </div>
               </div>
               <div class="col-lg-5">
-                <div class="form-group" style="margin-bottom: 0">
+                <div class="form-group" style="margin-bottom: 0" *ngIf="defaults == null">
                   <label class="label-key mt-2">{{
                     "gender" | translate
                   }}</label>
@@ -109,7 +109,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" *ngIf="defaults == null">
                   <label class="label-key mt-2">{{
                     "Title" | translate
                   }}</label>
@@ -147,7 +147,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" *ngIf="defaults == null">
                   <label class="label-key mt-2">{{
                     "user title" | translate
                   }}</label>
@@ -398,7 +398,7 @@
                   </mat-error>
                 </div>
               </div>
-              <div class="form-group">
+              <div class="form-group" *ngIf="defaults == null">
                 <label class="label-key mt-2">{{
                   "department" | translate
                 }}</label>

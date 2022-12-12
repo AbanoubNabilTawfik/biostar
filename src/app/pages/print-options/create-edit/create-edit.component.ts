@@ -20,16 +20,17 @@ export class CreateEditComponent implements OnInit {
   imagePath: any;
   newsImgB64: any;
   imgName: any;
-  imgURL: string | ArrayBuffer = "";
+  imgURL: any = "";
   maxDate = new Date();
   minDate = new Date();
-  CardWidth:any
-  CardHeight:any
-  FontStyle:any
-  FontSize:any
-  FontColor:any
-  formatedImage:any
- constructor(
+  CardWidth: any;
+  CardHeight: any;
+  FontStyle: any;
+  FontSize: any;
+  FontColor: any;
+  formatedImage: any;
+  IsBack:any
+  constructor(
     private fb: FormBuilder,
     public SharedService: SharedService,
     private router: Router,
@@ -37,23 +38,19 @@ export class CreateEditComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private dialogRef: MatDialogRef<CreateEditComponent>,
     @Inject(MAT_DIALOG_DATA) public defaults: any,
-    private commonService:CommonService,
+    private commonService: CommonService,
     private sanitizer: DomSanitizer
-
   ) {}
 
   ngOnInit(): void {
-    console.log('print options create');
-    
+    console.log(this.defaults);
     this.initForm();
   }
-  // displayBase64(){
-    
-  //   this.formatedImage =this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${this.imgURL}`);
-  //   console.log(this.formatedImage );
-    
-  //   return this.formatedImage
-  // }
+  displayBase64(url){
+    let result:any = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${url}`) 
+    return result
+  }
+
 
   initForm() {
     this.Form = this.fb.group({
@@ -96,7 +93,28 @@ export class CreateEditComponent implements OnInit {
           // Validators.pattern(Patterns.lettersorsymbolsorspaces),
         ],
       ],
+      IsBack:[false, [Validators.required]]
     });
+
+    this.initFormInEdit()
+  }
+  initFormInEdit(){
+    if (this.defaults !== null) {
+      console.log(this.defaults);
+      
+      this.CardWidth=this.defaults.cardWidth
+      this.CardHeight=this.defaults.cardHight
+      this.FontStyle=this.defaults.fontStyle
+      this.FontSize=this.defaults.fontSize
+      this.FontColor=this.defaults.fontColor
+      this.IsBack= this.defaults.isBack 
+      this.Form.get('IsBack').patchValue(this.defaults.isBack)
+      setTimeout(()=>{
+        this.imgURL = this.displayBase64 (this.defaults.backgroundPic)
+        
+      },1000)
+      
+    }
   }
   preview(files: any) {
     // console.log(files)
@@ -110,6 +128,7 @@ export class CreateEditComponent implements OnInit {
     this.imgName = files[0].name;
     reader.readAsDataURL(files[0]);
     reader.onload = (_event) => {
+
       this.imgURL = reader.result;
       let imgBase6 = (reader.result as string).substr(
         (reader.result as string).indexOf(",") + 1
@@ -118,14 +137,17 @@ export class CreateEditComponent implements OnInit {
     };
     // this.displayBase64()
   }
-  
-  submit() {
-    console.log(this.Form);
-    
-    const formData: FormData = new FormData();
 
+  submit() {
+    const formData: FormData = new FormData();
     if (this.newsImgB64 !== undefined) {
       formData.append("BackgroundPic", this.newsImgB64, this.newsImgB64.name);
+    }
+    if(this.defaults !== null){
+    formData.append(
+      "Id",
+      this.defaults.id
+    );
     }
     formData.append(
       "FontColor",
@@ -147,25 +169,41 @@ export class CreateEditComponent implements OnInit {
       "CardHight",
       this.Form.controls["CardHight"].value.toString()
     );
-
-    console.log(formData);
-
-    console.log(this.Form);
+    formData.append(
+      "IsBack",
+      this.Form.controls["IsBack"].value.toString()
+    );
 
     this.spinner.show();
 
-    this.PrintOptionsService.setPrintOptions(formData).subscribe(
+  if(this.defaults == null){  this.PrintOptionsService.setPrintOptions(formData).subscribe(
       (response: any) => {
-          this.dialogRef.close("reload");
-          this.commonService.openSnackBar('you are set your options successfully', 'x')
-
-   
+        this.dialogRef.close("reload");
+        this.commonService.openSnackBar(
+          "you are set your options successfully",
+          "x"
+        );
       },
       (error: Error) => {
         this.spinner.hide();
-        this.commonService.openSnackBarError('error in set options', 'x')
-
+        this.commonService.openSnackBarError("error in set options", "x");
       }
-    );
+    );}
+    else{
+
+      this.PrintOptionsService.updatePrintOptionsById(this.defaults.id, formData).subscribe(
+        (response: any) => {
+          this.dialogRef.close("reload");
+          this.commonService.openSnackBar(
+            "you are set your options successfully",
+            "x"
+          );
+        },
+        (error: Error) => {
+          this.spinner.hide();
+          this.commonService.openSnackBarError("error in set options", "x");
+        }
+      );
+    }
   }
 }

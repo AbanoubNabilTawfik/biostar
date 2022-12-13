@@ -62,7 +62,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
     CommonModule,
     PrintOptionsRoutingModule,
     MatDialogModule,
-    TranslateModule.forRoot({
+    TranslateModule.forChild({
       loader: {
           provide: TranslateLoader,
           useFactory: HttpLoaderFactory,

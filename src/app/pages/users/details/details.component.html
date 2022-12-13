@@ -1,25 +1,25 @@
 <div class="container">
-
   <div
     *ngIf="this.defaults.view == 'Details'"
     mat-dialog-title
     style="display: flex; justify-content: space-between"
   >
     <h6 class="userInfo">
-      {{ "Print User" | translate }}
+      {{ "User Details" | translate }}
     </h6>
-    <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+    <button
+      class="text-secondary"
+      mat-dialog-close
+      mat-icon-button
+      type="button"
+    >
       <mat-icon>close</mat-icon>
     </button>
   </div>
   <mat-dialog-content id="print-sec">
-    <div
-      class="custom-card-content row"
-      
-      *ngFor="let card of cards"
-    >
+    <div class="custom-card-content row" *ngFor="let card of cards">
       <div class="col-md-6 col-sm-6">
-        <h6>{{ "front" | translate }}</h6>
+        <h6 style="text-align: start">{{ "Front" | translate }}</h6>
         <div>
           <div
             class="custom-card"
@@ -74,7 +74,7 @@
               >
                 {{ card.user_id || "N/A" }}
               </p>
-  
+
               <p
                 [style.font-style]="this.defaults?.PrintOptions[4].fontStyle"
                 [style.font-size.px]="this.defaults?.PrintOptions[4].fontSize"
@@ -87,7 +87,7 @@
         </div>
       </div>
       <div class="col-md-6 col-sm-6">
-        <h6>{{ "back" | translate }}</h6>
+        <h6 style="text-align: start">{{ "Back" | translate }}</h6>
         <div>
           <div
             class="custom-card"
@@ -133,7 +133,7 @@
       </div>
     </div>
   </mat-dialog-content>
-  
+
   <mat-dialog-actions align="end">
     <div class="main-stepper-btn" *ngIf="defaults.view == 'Print'">
       <button
@@ -142,7 +142,7 @@
         mat-raised-button
         color="primary"
       >
-        print
+        {{ "Print" | translate }}
       </button>
     </div>
   </mat-dialog-actions>

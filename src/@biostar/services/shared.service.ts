@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import { ConfigService } from "src/@vex/services/config.service";
 
@@ -12,17 +13,22 @@ export class SharedService {
   isFirstLogin: boolean;
   constructor(public translate: TranslateService,
     private configService: ConfigService,
+    private router: Router,
     ) {}
 
   initLang() {
     if (localStorage.getItem("currentLang")) {
       if (localStorage.getItem("currentLang") == "ar") {
-        this.configService.updateConfig({
-          rtl: true,
+        this.router.navigate([], {
+          queryParams: {
+            rtl: 'true'
+          }
         });
       } else {
-        this.configService.updateConfig({
-          rtl: false,
+        this.router.navigate([], {
+          queryParams: {
+            rtl: 'false'
+          }
         });
       }
     } else {

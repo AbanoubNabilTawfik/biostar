@@ -77,7 +77,7 @@
           color="primary"
           fxFlex="none"
           mat-mini-fab
-          matTooltip="{{ 'Add User' | translate }}"
+          matTooltip="{{ 'Add New Option' | translate }}"
           type="button"
         >
           <mat-icon [icIcon]="icAdd"></mat-icon>
@@ -103,7 +103,9 @@
               [indeterminate]="selection.hasValue() && !isAllSelected()" color="primary">
             </mat-checkbox>
           </th>
-          <td *matCellDef="let row" class="w-4" mat-cell>
+          <td *matCellDef="let row" class="w-4" mat-cell
+          
+          style="text-align: start !important">
             <mat-checkbox (change)="$event ? selection.toggle(row) : null" (click)="$event.stopPropagation()"
               [checked]="selection.isSelected(row)" color="primary">
             </mat-checkbox>
@@ -113,7 +115,9 @@
         <!-- Image Column -->
         <!-- <ng-container matColumnDef="image">
         <th *matHeaderCellDef mat-header-cell></th>
-        <td *matCellDef="let row" class="w-8 min-w-8 pr-0" mat-cell>
+        <td *matCellDef="let row" class="w-8 min-w-8 pr-0" mat-cell
+        
+        style="text-align: start !important">
           <img [src]="row['imageSrc']" class="avatar h-8 w-8 align-middle">
         </td>
       </ng-container> -->
@@ -130,6 +134,7 @@
               *matCellDef="let row; let i = index"
               [ngClass]="column.cssClasses"
               mat-cell
+              style="text-align: start !important"
             >
               {{ i + 1 }}
             </td>
@@ -143,7 +148,12 @@
             <th *matHeaderCellDef class="uppercase" mat-header-cell>
               {{ column.label | translate }}
             </th>
-            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>
+            <td
+              *matCellDef="let row"
+              [ngClass]="column.cssClasses"
+              mat-cell
+              style="text-align: start !important"
+            >
               {{ row[column.property] }}
             </td>
           </ng-container>
@@ -162,12 +172,46 @@
             >
               {{ column.label | translate }}
             </th>
-            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>
+            <td
+              *matCellDef="let row"
+              [ngClass]="column.cssClasses"
+              mat-cell
+              style="text-align: start !important"
+            >
               {{ row[column.property] || "N/A" }}
             </td>
           </ng-container>
         </ng-container>
-                <!-- array2 Columns -->
+        <!-- array2 Columns -->
+        <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
+          <ng-container
+            *ngIf="column.type === 'array4'"
+            [matColumnDef]="column.property"
+          >
+            <th
+              *matHeaderCellDef
+              class="uppercase"
+              mat-header-cell
+              mat-sort-header
+            >
+              {{ column.label | translate }}
+            </th>
+            <td
+              *matCellDef="let row"
+              [ngClass]="column.cssClasses"
+              mat-cell
+              style="text-align: start !important"
+            >
+              <!-- {{ row[column.property] || "N/A" }} -->
+              {{
+                row[column.property] == true
+                  ? ("Back" | translate)
+                  : ("Front" | translate)
+              }}
+            </td>
+          </ng-container>
+        </ng-container>
+        <!-- array4 Columns -->
         <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
           <ng-container
             *ngIf="column.type === 'array2'"
@@ -181,8 +225,14 @@
             >
               {{ column.label | translate }}
             </th>
-            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>
-              {{ row[column.property] || "N/A" }} {{ row[column.property] ?  'cm' :'' }}
+            <td
+              *matCellDef="let row"
+              [ngClass]="column.cssClasses"
+              mat-cell
+              style="text-align: start !important"
+            >
+              {{ row[column.property] || "N/A" }}
+              {{ row[column.property] ? "cm" : "" }}
             </td>
           </ng-container>
         </ng-container>
@@ -200,7 +250,12 @@
             >
               {{ column.label | translate }}
             </th>
-            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>
+            <td
+              *matCellDef="let row"
+              [ngClass]="column.cssClasses"
+              mat-cell
+              style="text-align: start !important"
+            >
               {{ row[column.property] | date }}
             </td>
           </ng-container>
@@ -212,9 +267,14 @@
             [matColumnDef]="column.property"
           >
             <th *matHeaderCellDef class="uppercase" mat-header-cell>
-              {{ column.label }}
+              {{ column.label | translate }}
             </th>
-            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>
+            <td
+              *matCellDef="let row"
+              [ngClass]="column.cssClasses"
+              mat-cell
+              style="text-align: start !important"
+            >
               <img
                 [src]="displayBase64(row[column.property])"
                 style="width: 30px; height: 30px; border-radius: 50%"
@@ -226,7 +286,9 @@
           <ng-container *ngIf="column.type === 'enum1'" [matColumnDef]="column.property">
             <th *matHeaderCellDef class="uppercase" mat-header-cell > {{ column.label| translate }}
             </th>
-            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ IssueTypeEnum[row[column.property]] }}
+            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell
+            
+            style="text-align: start !important">{{ IssueTypeEnum[row[column.property]] }}
             </td>
           </ng-container>
         </ng-container>
@@ -234,7 +296,9 @@
           <ng-container *ngIf="column.type === 'enum2'" [matColumnDef]="column.property">
             <th *matHeaderCellDef class="uppercase" mat-header-cell > {{ column.label| translate }}
             </th>
-            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{
+            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell
+            
+            style="text-align: start !important">{{
               TechnicalCenterIssueStatusEnum[row[column.property]] }}</td>
           </ng-container>
 
@@ -242,13 +306,19 @@
         <!-- <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
           <ng-container *ngIf="column.type === 'array'" [matColumnDef]="column.property">
             <th *matHeaderCellDef class="uppercase" mat-header-cell > {{ column.label }}</th>
-            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.property]|phone }}</td>
+            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell
+            
+            style="text-align: start !important">{{ row[column.property]|phone }}</td>
           </ng-container> 
          </ng-container>-->
         <!-- Issue Column -->
         <ng-container matColumnDef="Issue">
           <th *matHeaderCellDef mat-header-cell></th>
-          <td *matCellDef="let row" mat-cell>
+          <td
+            *matCellDef="let row"
+            mat-cell
+            style="text-align: start !important"
+          >
             <div class="flex">
               <a
                 (click)="$event.stopPropagation()"
@@ -280,7 +350,11 @@
         <!-- Label Column -->
         <ng-container matColumnDef="labels">
           <th *matHeaderCellDef class="uppercase" mat-header-cell>Labels</th>
-          <td *matCellDef="let row" mat-cell>
+          <td
+            *matCellDef="let row"
+            mat-cell
+            style="text-align: start !important"
+          >
             <div
               (click)="$event.stopPropagation()"
               fxLayoutAlign="start center"
@@ -292,7 +366,7 @@
                 class="rounded px-2 py-1 font-medium text-xs"
                 fxFlex="none"
               >
-                {{ label.text }}
+                {{ label.text | translate }}
               </div>
               <div
                 (click)="labelSelect.open()"
@@ -316,7 +390,7 @@
                     [ngClass]="label.previewClass"
                     class="h-6 w-6 align-middle ltr:mr-2 rtl:ml-2 rounded inline-block"
                   ></div>
-                  <span>{{ label.text }}</span>
+                  <span>{{ label.text | translate }}</span>
                 </mat-option>
               </mat-select>
             </div>
@@ -326,7 +400,12 @@
         <!-- Action Column -->
         <ng-container matColumnDef="actions">
           <th *matHeaderCellDef mat-header-cell>{{ "ACTIONS" | translate }}</th>
-          <td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
+          <td
+            *matCellDef="let row"
+            class="w-10 text-secondary"
+            mat-cell
+            style="text-align: start !important"
+          >
             <button
               (click)="$event.stopPropagation()"
               [matMenuTriggerData]="{ Issue: row }"

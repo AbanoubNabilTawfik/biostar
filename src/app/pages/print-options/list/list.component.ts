@@ -35,6 +35,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { PrintOptionsService } from "src/@biostar/services/PrintOptions.service";
 import { CommonService } from "src/@biostar/services/common.service";
 import { DomSanitizer } from "@angular/platform-browser";
+import { SharedService } from "src/@biostar/services/shared.service";
 
 @UntilDestroy()
 @Component({
@@ -80,35 +81,42 @@ export class ListComponent implements OnInit {
     // },
 
     {
-      label: "background image",
+      label: "Background image",
       property: "backgroundPic",
       type: "array3",
       cssClasses: ["text-secondary"],
       visible: true,
     },
     {
-      label: "card Hight",
+      label: "Card Hight",
       property: "cardHight",
-      type: "text",
+      type: "array2",
       cssClasses: ["text-secondary"],
       visible: true,
     },
     {
-      label: "card Width",
+      label: "Card Width",
       property: "cardWidth",
-      type: "text",
+      type: "array2",
       cssClasses: ["text-secondary"],
       visible: true,
     },
     {
-      label: "font Size",
+      label: "Card Face",
+      property: "isBack",
+      type: "array4",
+      cssClasses: ["text-secondary"],
+      visible: true,
+    },
+    {
+      label: "Font Size",
       property: "fontSize",
       type: "text",
       cssClasses: ["text-secondary"],
       visible: true,
     },
     {
-      label: "font Style",
+      label: "Font Style",
       property: "fontStyle",
       type: "text",
       cssClasses: ["text-secondary"],
@@ -171,9 +179,11 @@ export class ListComponent implements OnInit {
     private PrintOptionsService: PrintOptionsService,
     private spinner: NgxSpinnerService,
     private commonService:CommonService,
-    private sanitizer: DomSanitizer
-
-  ) {}
+    private sanitizer: DomSanitizer,
+    private SharedService: SharedService,
+  ) {
+    this.SharedService.initLang();
+  }
   get visibleColumns() {
     return this.columns
       .filter((column) => column.visible)

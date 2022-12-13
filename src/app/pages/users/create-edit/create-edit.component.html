@@ -1,8 +1,7 @@
 <div mat-dialog-title style="display: flex; justify-content: space-between">
   <h6 class="userInfo">
-    {{ "Create New User" | translate }}
+    {{ defaults == null ?( "Create New User" | translate) : ("Edit User Information" | translate )  }}
 
-    <!-- {{ "Edit User Information" | translate }} -->
   </h6>
   <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
     <mat-icon>close</mat-icon>
@@ -241,7 +240,7 @@
               <div class="col-lg-5">
                 <div class="form-group">
                   <label class="label-key mt-2">{{
-                    "user id" | translate
+                    "User id" | translate
                   }}</label>
                   <input
                     type="number"
@@ -286,10 +285,10 @@
                 </div>
                 <div class="form-group">
                   <label class="label-key mt-2">{{
-                    "user group id" | translate
+                    "User Group Id" | translate
                   }}</label>
                   <mat-form-field appearance="fill" style="width: 100%">
-                    <mat-label>{{ "Select user group id" | translate }}</mat-label>
+                    <mat-label>{{ "Select User Group Id" | translate }}</mat-label>
                     <mat-select disableRipple formControlName="user_group_id">
                       <mat-option *ngFor="let group of groups" [value]="group.id">{{group.discription}}</mat-option>
                     </mat-select>
@@ -400,7 +399,7 @@
               </div>
               <div class="form-group" *ngIf="defaults == null">
                 <label class="label-key mt-2">{{
-                  "department" | translate
+                  "Department" | translate
                 }}</label>
                 <input
                   type="text"
@@ -442,7 +441,7 @@
     color="primary"
     [disabled]="Form.invalid"
     >
-      Save
+      {{'Save' | translate}}
     </button>
   </div>
 </mat-dialog-actions>

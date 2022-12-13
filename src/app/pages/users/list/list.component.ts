@@ -36,6 +36,7 @@ import { CommonService } from "src/@biostar/services/common.service";
 import { DomSanitizer } from "@angular/platform-browser";
 import { DetailsComponent } from "../details/details.component";
 import { PrintOptionsService } from "src/@biostar/services/PrintOptions.service";
+import { SharedService } from "src/@biostar/services/shared.service";
 
 @UntilDestroy()
 @Component({
@@ -111,7 +112,7 @@ export class ListComponent implements OnInit {
       visible: true,
     },
     {
-      label: "Ecpiration Date",
+      label: "Expiration Date",
       property: "expiry_datetime",
       type: "date",
       cssClasses: ["font-medium"],
@@ -168,9 +169,11 @@ export class ListComponent implements OnInit {
     private commonService: CommonService,
     private sanitizer: DomSanitizer,
     private PrintOptionsService: PrintOptionsService,
+    private SharedService: SharedService,
+  ) {
+    this.SharedService.initLang();
 
-    
-  ) {}
+  }
   get visibleColumns() {
     return this.columns
       .filter((column) => column.visible)

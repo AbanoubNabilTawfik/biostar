@@ -8,7 +8,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { IconModule } from '@visurel/iconify-angular';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
+import { HttpClient } from '@angular/common/http';
 
 @NgModule({
   declarations: [SidenavComponent],
@@ -20,9 +23,20 @@ import { IconModule } from '@visurel/iconify-angular';
     FlexLayoutModule,
     MatButtonModule,
     MatIconModule,
-    IconModule
+    IconModule,
+    TranslateModule.forChild({
+      loader: {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient]
+      }
+  }),
   ],
   exports: [SidenavComponent]
 })
 export class SidenavModule {
+}
+
+export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json')
 }

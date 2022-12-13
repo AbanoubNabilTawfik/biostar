@@ -1,23 +1,30 @@
 @import "./image-upload.scss";
 
+.p-relative {
+  position: relative !important;
+}
+.snackBarStyle {
+  background-color: #f44336;
+  color: white;
+  width: fit-content;
+  //white-space : pre-wrap;
+}
+.snackBarStyleSuccess {
+  background-color: #28a745;
+  color: white;
+  width: fit-content;
+}
+// ::ng-deep [dir=rtl]tr.mat-row .mat-table td.mat-cell {
 
-.p-relative{
-    position: relative!important;
-}
-.snackBarStyle
-{
-    background-color: #F44336;
-    color: white;
-    width: fit-content;
-    //white-space : pre-wrap;
-}
-.snackBarStyleSuccess
-{
-    background-color: #28a745;
-    color: white;
-    width: fit-content;
-}
+//   text-align: justify !important;
+// }
 
 ::ng-deep table tr.mat-row {
-    height: 66px!important;
+  height: 66px !important;
+  
 }
+// ::ng-deep .mat-table mat-row, .mat-table mat-header-row, .mat-table mat-footer-row, .mat-table th.mat-header-cell, .mat-table td.mat-cell, .mat-table td.mat-footer-cell
+// {
+//   text-align: start !important;
+
+// }

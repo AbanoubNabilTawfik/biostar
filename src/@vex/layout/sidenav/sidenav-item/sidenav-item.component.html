@@ -7,7 +7,7 @@
    matRipple
    routerLinkActive="active">
   <mat-icon *ngIf="level === 0" [icIcon]="item.icon" class="item-icon" fxFlex="none"></mat-icon>
-  <span class="item-label" fxFlex="auto">{{ item.label }}</span>
+  <span class="item-label" fxFlex="auto">{{ item.label | translate }}</span>
   <span *ngIf="item.badge"
         [ngClass]="[item.badge.bgClass, item.badge.textClass]"
         class="item-badge"
@@ -21,7 +21,7 @@
      matRipple
      routerLinkActive="active">
   <mat-icon *ngIf="level === 0" [icIcon]="item.icon" class="item-icon" fxFlex="none"></mat-icon>
-  <span class="item-label" fxFlex="auto">{{ item.label }}</span>
+  <span class="item-label" fxFlex="auto">{{ item.label | translate }}</span>
   <span *ngIf="item.badge"
         [ngClass]="[item.badge.bgClass, item.badge.textClass]"
         class="item-badge"
@@ -36,7 +36,7 @@
        fxLayout="row"
        matRipple>
     <mat-icon *ngIf="level === 0" [icIcon]="item.icon" class="item-icon" fxFlex="none"></mat-icon>
-    <span class="item-label" fxFlex="auto">{{ item.label }}</span>
+    <span class="item-label" fxFlex="auto">{{ item.label | translate }}</span>
     <span *ngIf="item.badge"
           [ngClass]="[item.badge.bgClass, item.badge.textClass]"
           class="item-badge"
@@ -50,7 +50,7 @@
 
 
 <ng-container *ngIf="isSubheading(item)">
-  <div class="subheading">{{ item.label }}</div>
+  <div class="subheading">{{ item.label | translate }}</div>
   <vex-sidenav-item *ngFor="let subItem of item.children" [item]="subItem" [level]="0"></vex-sidenav-item>
 </ng-container>
 

@@ -14,6 +14,9 @@ constructor(
 getPrintOptions(model: any) {
   return this.http.get(PrintOptionsController.PrintOptions, model);
 }
+getActivePrintOptions(model: any) {
+  return this.http.get(PrintOptionsController.ActivePrintOptions, model);
+}
 getUserById(id: any) {
   return this.http.get(`${PrintOptionsController.PrintOptions}/${id}`);
 }

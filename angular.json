@@ -159,6 +159,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "vex"
+    }
+  },
+  "defaultProject": "vex",
+  "cli": {
+    "analytics": "95652e72-7908-45e8-84d1-a588d36819bf"
+  }
 }

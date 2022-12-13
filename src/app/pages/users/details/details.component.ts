@@ -34,6 +34,7 @@ export class DetailsComponent implements OnInit {
     } else {
       console.log("more than one ele");
       this.cards = this.defaults.row;
+      console.log(this.cards);
     }
     // console.log(this.cards ,this.defaults.row[0]);
   }

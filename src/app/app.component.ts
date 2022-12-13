@@ -6,7 +6,7 @@ import { Platform } from '@angular/cdk/platform';
 import { NavigationService } from '../@vex/services/navigation.service';
 import icLayers from '@iconify/icons-ic/twotone-layers';
 import { LayoutService } from '../@vex/services/layout.service';
-import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { SplashScreenService } from '../@vex/services/splash-screen.service';
@@ -16,6 +16,7 @@ import { navigationItems } from 'src/@biostar/navigation-items';
 import { TranslateService } from '@ngx-translate/core';
 import { SharedService } from 'src/@biostar/services/shared.service';
 import { animate, animateChild, group, query, style, transition, trigger } from '@angular/animations';
+import { Title } from '@angular/platform-browser';
 export const slideInAnimation =
   trigger('routeAnimations', [
     transition('HomePage <=> AboutPage', [
@@ -93,7 +94,8 @@ export class AppComponent {
               private splashScreenService: SplashScreenService,
               private translate: TranslateService,
               public SharedService: SharedService,
-              private router:Router
+              private router:Router,
+              private titleService: Title
 
               ) {
     Settings.defaultLocale = this.localeId;
@@ -144,6 +146,28 @@ export class AppComponent {
 
 
     this.navigationService.items =navigationItems
+
+    // change app titles 
+    this.router.events
+    .pipe(
+      filter((event) => event instanceof NavigationEnd),
+      map(() => {
+        let route: ActivatedRoute = this.router.routerState.root;
+        let routeTitle = '';
+        while (route!.firstChild) {
+          route = route.firstChild;
+        }
+        if (route.snapshot.data['title']) {
+          routeTitle = route!.snapshot.data['title'];
+        }
+        return routeTitle;
+      })
+    )
+    .subscribe((title: string) => {
+      if (title) {
+        this.titleService.setTitle(` ${title}`);
+      }
+    });
   }
   checkLanguage() {
     let languageFromLocalStorage = localStorage.getItem('displayDirection');

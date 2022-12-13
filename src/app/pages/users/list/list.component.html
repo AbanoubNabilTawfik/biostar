@@ -103,6 +103,7 @@
           color="primary"
           fxFlex="none"
           mat-mini-fab
+          [disabled]="filteredData.length < 1"
         >
           <mat-icon> print </mat-icon>
         </button>

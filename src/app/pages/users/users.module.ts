@@ -47,10 +47,9 @@ import { IconModule } from '@visurel/iconify-angular';
 // import { NgxSpinnerModule } from 'ngx-spinner';
 import { BreadcrumbsModule } from 'src/@vex/components/breadcrumbs/breadcrumbs.module';
 import { PageLayoutModule } from 'src/@vex/components/page-layout/page-layout.module';
-import { WidgetAssistantModule } from 'src/@vex/components/widgets/widget-assistant/widget-assistant.module';
-import { WidgetQuickValueCenterModule } from 'src/@vex/components/widgets/widget-quick-value-center/widget-quick-value-center.module';
 import { ContainerModule } from 'src/@vex/directives/container/container.module';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { ApplicationPipesModule } from 'src/app/application-pipes/application-pipes.module';
 // import { NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 // import { NgxMatDatetimePickerModule } from '@angular-material-components/datetime-picker/public-api';
 
@@ -113,6 +112,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
   MatSlideToggleModule,
   NgxSpinnerModule,
   // NgxMatDatetimePickerModule,
+  ApplicationPipesModule
 
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

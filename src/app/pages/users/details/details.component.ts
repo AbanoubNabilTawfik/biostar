@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { NgxSpinnerService } from "ngx-spinner";
 import { PrintOptionsService } from "src/@biostar/services/PrintOptions.service";
 import { DomSanitizer } from "@angular/platform-browser";
+import { style } from "@angular/animations";
 
 @Component({
   selector: "vex-details",
@@ -43,14 +44,14 @@ export class DetailsComponent implements OnInit {
     );
   }
   printUser() {
-    var mywindow = window.open("", "PRINT", "height=400,width=600");
+    var mywindow = window.open("", "PRINT", "");
 
     mywindow.document.write(
       "<html><head><title>" + document.title + "</title>"
     );
     mywindow.document.write("</head><body >");
-    mywindow.document.write("<h1>" + document.title + "</h1>");
-
+    // mywindow.document.write("<h1>" + document.title + "</h1>");
+    // mywindow.document.write(style(margin:'0'))
     mywindow.document.write(document.getElementById("print-sec").innerHTML);
     mywindow.document.write("</body></html>");
 

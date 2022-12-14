@@ -23,8 +23,8 @@
         <div>
           <div
             class="custom-card"
-            [style.width.cm]="this.defaults?.PrintOptions[4].cardWidth"
-            [style.height.cm]="this.defaults?.PrintOptions[4].cardHight"
+            [style.width.cm]="this.defaults?.PrintOptions[0].cardWidth"
+            [style.height.cm]="this.defaults?.PrintOptions[0].cardHight"
             style="
               background-size: cover;
               border-radius: 16px;
@@ -46,7 +46,7 @@
               alt=""
             />
             <img
-              [src]="displayBase64(defaults?.PrintOptions[4].backgroundPic)"
+              [src]="displayBase64(defaults?.PrintOptions[0].backgroundPic)"
               alt=""
               style="position: absolute; z-index: 1; height: 100%"
             />
@@ -59,25 +59,25 @@
               "
             >
               <p
-                [style.font-style]="this.defaults?.PrintOptions[4].fontStyle"
-                [style.font-size.px]="this.defaults?.PrintOptions[4].fontSize"
-                [style.color]="this.defaults?.PrintOptions[4].fontColor"
+                [style.font-style]="this.defaults?.PrintOptions[0].fontStyle"
+                [style.font-size.px]="this.defaults?.PrintOptions[0].fontSize"
+                [style.color]="this.defaults?.PrintOptions[0].fontColor"
                 style="font-weight: bold"
               >
                 {{ card.name || "N/A" }}
               </p>
               <p
-                [style.font-style]="this.defaults?.PrintOptions[4].fontStyle"
-                [style.font-size.px]="this.defaults?.PrintOptions[4].fontSize"
-                [style.color]="this.defaults?.PrintOptions[4].fontColor"
+                [style.font-style]="this.defaults?.PrintOptions[0].fontStyle"
+                [style.font-size.px]="this.defaults?.PrintOptions[0].fontSize"
+                [style.color]="this.defaults?.PrintOptions[0].fontColor"
               >
                 {{ card.user_id || "N/A" }}
               </p>
 
               <p
-                [style.font-style]="this.defaults?.PrintOptions[4].fontStyle"
-                [style.font-size.px]="this.defaults?.PrintOptions[4].fontSize"
-                [style.color]="this.defaults?.PrintOptions[4].fontColor"
+                [style.font-style]="this.defaults?.PrintOptions[0].fontStyle"
+                [style.font-size.px]="this.defaults?.PrintOptions[0].fontSize"
+                [style.color]="this.defaults?.PrintOptions[0].fontColor"
               >
                 {{ card.user_title || "N/A" }}
               </p>
@@ -91,8 +91,8 @@
           <!-- [ngStyle]="{ 'background-image': 'url( ;' + displayBase64(defaults?.PrintOptions[4].backgroundPic)   + ')' }" -->
           <div
             class="custom-card"
-            [style.width.cm]="this.defaults?.PrintOptions[4].cardWidth"
-            [style.height.cm]="this.defaults?.PrintOptions[4].cardHight"
+            [style.width.cm]="this.defaults?.PrintOptions[0].cardWidth"
+            [style.height.cm]="this.defaults?.PrintOptions[0].cardHight"
             style="
               background-size: cover;
               border-radius: 16px;
@@ -100,7 +100,7 @@
             "
           >
             <img
-              [src]="displayBase64(defaults?.PrintOptions[4].backgroundPic)"
+              [src]="displayBase64(defaults?.PrintOptions[0].backgroundPic)"
               alt=""
               style="position: absolute; z-index: 1; height: 100%"
             />
@@ -113,16 +113,16 @@
               "
             >
               <p
-                [style.font-style]="this.defaults?.PrintOptions[4].fontStyle"
-                [style.font-size.px]="this.defaults?.PrintOptions[4].fontSize"
-                [style.color]="this.defaults?.PrintOptions[4].fontColor"
+                [style.font-style]="this.defaults?.PrintOptions[0].fontStyle"
+                [style.font-size.px]="this.defaults?.PrintOptions[0].fontSize"
+                [style.color]="this.defaults?.PrintOptions[0].fontColor"
               >
                 {{ card.department || "N/A" }}
               </p>
               <p
-                [style.font-style]="this.defaults?.PrintOptions[4].fontStyle"
-                [style.font-size.px]="this.defaults?.PrintOptions[4].fontSize"
-                [style.color]="this.defaults?.PrintOptions[4].fontColor"
+                [style.font-style]="this.defaults?.PrintOptions[0].fontStyle"
+                [style.font-size.px]="this.defaults?.PrintOptions[0].fontSize"
+                [style.color]="this.defaults?.PrintOptions[0].fontColor"
               >
                 {{ card.phone || "N/A" }}
               </p>

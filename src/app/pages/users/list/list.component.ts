@@ -161,7 +161,6 @@ export class ListComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private UsersService: UsersService,
@@ -192,18 +191,17 @@ export class ListComponent implements OnInit {
 
   getPrintOptions() {
     let params = {
-      // IsPaid: true,
-      // pageIndex: this.paginator.pageIndex + 1 || 1,
-      // pageSize: this.paginator.pageSize || 10,
+      //IsPaid: true,
+      //pageIndex: this.paginator.pageIndex + 1 || 1,
+      //pageSize: this.paginator.pageSize || 10,
       orderByProp: this.sort.active || "",
       direction: this.sort.direction || "",
     };
     this.spinner.show();
 
-    this.PrintOptionsService.getPrintOptions(params).subscribe(
+    this.PrintOptionsService.getActivePrintOptions(params).subscribe(
       (res) => {
         this.PrintOptions = res['data'].list.$values;
- 
         this.spinner.hide();
 
       },

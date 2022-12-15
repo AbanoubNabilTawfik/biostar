@@ -17,119 +17,88 @@
     </button>
   </div>
   <mat-dialog-content id="print-sec">
-    <div class="custom-card-content row" *ngFor="let card of cards">
-      <div class="col-md-6 col-sm-6" style="margin: 0; padding: 0">
-        <!-- <h6 style="text-align: start">{{ "Front" | translate }}</h6> -->
-        <div>
-          <div
-            class="custom-card"
-            [style.width.cm]="this.defaults?.PrintOptions[0].cardWidth"
-            [style.height.cm]="this.defaults?.PrintOptions[0].cardHight"
-            style="
-              background-size: cover;
-              border-radius: 16px;
-              position: relative;
-            "
+    <div class="custom-card-content" *ngFor="let card of cards">
+      <!-- <div class="col-md-6 col-sm-6" style="margin: 0; padding: 0"> -->
+      <!-- <h6 style="text-align: start">{{ "Front" | translate }}</h6> -->
+      <!-- <div> -->
+      <div
+        class="custom-card"
+        [style.width.cm]="this.defaults?.PrintOptions[0].cardWidth + 0.5"
+        [style.height.cm]="this.defaults?.PrintOptions[0].cardHight + 0.7"
+        style="background-size: cover; border-radius: 16px; position: relative"
+      >
+        <img
+          [src]="displayBase64(card?.photo)"
+          class="card-user-img"
+          onerror="this.src='assets/img/demo/user.png'"
+          alt=""
+        />
+        <img
+          [src]="displayBase64(defaults?.PrintOptions[0].backgroundPic)"
+          class="card-background"
+        />
+        <div class="card-info">
+          <p
+            [style.font-style]="this.defaults?.PrintOptions[0].fontStyle"
+            [style.font-size.px]="this.defaults?.PrintOptions[0].fontSize"
+            [style.color]="this.defaults?.PrintOptions[0].fontColor"
+            style="font-weight: bold"
           >
-            <img
-              [src]="displayBase64(card?.photo)"
-              style="
-                position: absolute;
-                z-index: 2;
-                border-radius: 50%;
-                top: 16%;
-                right: 24%;
-                width: 117px;
-                height: 117px;
-              "
-              onerror="this.src='assets/img/demo/user.png'"
-              alt=""
-            />
-            <img
-              [src]="displayBase64(defaults?.PrintOptions[0].backgroundPic)"
-              alt=""
-              style="position: absolute; z-index: 1; height: 100%"
-            />
-            <div
-              style="
-                z-index: 3;
-                text-align: center;
-                position: relative;
-                padding-top: 87%;
-              "
-            >
-              <p
-                [style.font-style]="this.defaults?.PrintOptions[0].fontStyle"
-                [style.font-size.px]="this.defaults?.PrintOptions[0].fontSize"
-                [style.color]="this.defaults?.PrintOptions[0].fontColor"
-                style="font-weight: bold"
-              >
-                {{ card.name || "N/A" }}
-              </p>
-              <p
-                [style.font-style]="this.defaults?.PrintOptions[0].fontStyle"
-                [style.font-size.px]="this.defaults?.PrintOptions[0].fontSize"
-                [style.color]="this.defaults?.PrintOptions[0].fontColor"
-              >
-                {{ card.user_id || "N/A" }}
-              </p>
+            {{ card.name || "N/A" }}
+          </p>
+          <p
+            [style.font-style]="this.defaults?.PrintOptions[0].fontStyle"
+            [style.font-size.px]="this.defaults?.PrintOptions[0].fontSize"
+            [style.color]="this.defaults?.PrintOptions[0].fontColor"
+          >
+            {{ card.user_id || "N/A" }}
+          </p>
 
-              <p
-                [style.font-style]="this.defaults?.PrintOptions[0].fontStyle"
-                [style.font-size.px]="this.defaults?.PrintOptions[0].fontSize"
-                [style.color]="this.defaults?.PrintOptions[0].fontColor"
-              >
-                {{ card.user_title || "N/A" }}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6 col-sm-6" style="margin: 0; padding: 0">
-        <!-- <h6 style="text-align: start">{{ "Back" | translate }}</h6> -->
-        <div>
-          <!-- [ngStyle]="{ 'background-image': 'url( ;' + displayBase64(defaults?.PrintOptions[4].backgroundPic)   + ')' }" -->
-          <div
-            class="custom-card"
-            [style.width.cm]="this.defaults?.PrintOptions[0].cardWidth"
-            [style.height.cm]="this.defaults?.PrintOptions[0].cardHight"
-            style="
-              background-size: cover;
-              border-radius: 16px;
-              position: relative;
-            "
+          <p
+            [style.font-style]="this.defaults?.PrintOptions[0].fontStyle"
+            [style.font-size.px]="this.defaults?.PrintOptions[0].fontSize"
+            [style.color]="this.defaults?.PrintOptions[0].fontColor"
           >
-            <img
-              [src]="displayBase64(defaults?.PrintOptions[0].backgroundPic)"
-              alt=""
-              style="position: absolute; z-index: 1; height: 100%"
-            />
-            <div
-              style="
-                z-index: 3;
-                text-align: center;
-                position: relative;
-                padding-top: 87%;
-              "
-            >
-              <p
-                [style.font-style]="this.defaults?.PrintOptions[0].fontStyle"
-                [style.font-size.px]="this.defaults?.PrintOptions[0].fontSize"
-                [style.color]="this.defaults?.PrintOptions[0].fontColor"
-              >
-                {{ card.department || "N/A" }}
-              </p>
-              <p
-                [style.font-style]="this.defaults?.PrintOptions[0].fontStyle"
-                [style.font-size.px]="this.defaults?.PrintOptions[0].fontSize"
-                [style.color]="this.defaults?.PrintOptions[0].fontColor"
-              >
-                {{ card.phone || "N/A" }}
-              </p>
-            </div>
-          </div>
+            {{ card.user_title || "N/A" }}
+          </p>
         </div>
       </div>
+      <!-- </div> -->
+      <!-- </div> -->
+      <!-- <div class="col-md-6 col-sm-6" style="margin: 0; padding: 0"> -->
+      <!-- <h6 style="text-align: start">{{ "Back" | translate }}</h6> -->
+      <!-- <div> -->
+      <!-- [ngStyle]="{ 'background-image': 'url( ;' + displayBase64(defaults?.PrintOptions[4].backgroundPic)   + ')' }" -->
+      <div
+        class="custom-card"
+        [style.width.cm]="this.defaults?.PrintOptions[0].cardWidth + 0.5"
+        [style.height.cm]="this.defaults?.PrintOptions[0].cardHight + 0.7"
+        style="background-size: cover; border-radius: 16px; position: relative"
+      >
+        <img
+          [src]="displayBase64(defaults?.PrintOptions[0].backgroundPic)"
+          alt=""
+          class="card-background"
+        />
+        <div class="card-info">
+          <p
+            [style.font-style]="this.defaults?.PrintOptions[0].fontStyle"
+            [style.font-size.px]="this.defaults?.PrintOptions[0].fontSize"
+            [style.color]="this.defaults?.PrintOptions[0].fontColor"
+          >
+            {{ card.department || "N/A" }}
+          </p>
+          <p
+            [style.font-style]="this.defaults?.PrintOptions[0].fontStyle"
+            [style.font-size.px]="this.defaults?.PrintOptions[0].fontSize"
+            [style.color]="this.defaults?.PrintOptions[0].fontColor"
+          >
+            {{ card.phone || "N/A" }}
+          </p>
+        </div>
+      </div>
+      <!-- </div>
+      </div> -->
     </div>
   </mat-dialog-content>
 

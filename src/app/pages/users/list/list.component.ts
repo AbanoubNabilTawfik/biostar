@@ -55,8 +55,8 @@ import { SharedService } from "src/@biostar/services/shared.service";
 })
 export class ListComponent implements OnInit {
   layoutCtrl = new FormControl("boxed");
-  fromId = new FormControl('');
-  toId = new FormControl('');
+  fromId = new FormControl("");
+  toId = new FormControl("");
 
   /**
    * Simulating a service with HTTP that returns Observables
@@ -168,10 +168,9 @@ export class ListComponent implements OnInit {
     private commonService: CommonService,
     private sanitizer: DomSanitizer,
     private PrintOptionsService: PrintOptionsService,
-    private SharedService: SharedService,
+    private SharedService: SharedService
   ) {
     this.SharedService.initLang();
-
   }
   get visibleColumns() {
     return this.columns
@@ -201,15 +200,15 @@ export class ListComponent implements OnInit {
 
     this.PrintOptionsService.getActivePrintOptions(params).subscribe(
       (res) => {
-        this.PrintOptions = res['data'].list.$values;
-        this.spinner.hide();
-
+        this.PrintOptions = res["data"].list.$values;
+        this.filteredData.length < 1 && this.PrintOptions.length < 1
+          ? this.spinner.show()
+          : this.spinner.hide();
       },
       (err) => {}
     );
   }
   getUsers() {
-
     let params = {
       // IsPaid: true,
       // pageIndex: this.paginator.pageIndex + 1 || 1,
@@ -219,17 +218,18 @@ export class ListComponent implements OnInit {
     };
     this.spinner.show();
 
-    this.UsersService.getUsers(this.fromId.value , this.toId.value).subscribe(
+    this.UsersService.getUsers(this.fromId.value, this.toId.value).subscribe(
       (res) => {
         this.dataSource = new MatTableDataSource();
         this.dataSource = res["data"].list.$values;
         this.filteredData = this.dataSource;
         // this.subject$.next( this.filteredData);
-        this.spinner.hide();
+        this.filteredData.length < 1 && this.PrintOptions.length < 1
+          ? this.spinner.show()
+          : this.spinner.hide();
       },
       (err) => {
         this.spinner.hide();
-
       }
     );
   }
@@ -238,15 +238,14 @@ export class ListComponent implements OnInit {
     // this.dataSource['sort'] = this.sort;
   }
 
-  ViewDetails(row,view) {
+  ViewDetails(row, view) {
     this.dialog
       .open(DetailsComponent, {
-        data: {row:row,PrintOptions:this.PrintOptions , view:view}
+        data: { row: row, PrintOptions: this.PrintOptions, view: view },
       })
       .afterClosed()
       .subscribe((str) => {});
   }
-
 
   onDelete(row: any) {
     console.log(row);
@@ -338,7 +337,4 @@ export class ListComponent implements OnInit {
     //   }
     // })
   }
-
-
-
 }

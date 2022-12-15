@@ -215,10 +215,11 @@
                   <div
                     class="card"
                     [ngStyle]="{ 'background-image': 'url( ;' + imgURL + ')' }"
-                    [style.width.cm]="CardWidth"
-                    [style.height.cm]="CardHeight"
+                    [style.width.cm]="CardWidth + 0.5"
+                    [style.height.cm]="CardHeight + 0.7"
                     style="background-size: cover; border-radius: 16px"
                   >
+
                     <img
                       *ngIf="this.defaults !== null"
                       [src]="displayBase64(defaults.backgroundPic)"

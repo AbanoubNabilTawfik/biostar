@@ -21,3 +21,8 @@ body{
     position: relative;
     padding-top: 87%;
 }
+
+.custom-card{
+    width: 6.5cm;
+    height: 9.9cm;
+}

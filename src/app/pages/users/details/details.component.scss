@@ -3,22 +3,29 @@
 
 // }
 
-.card-background{
-    position: absolute; z-index: 1; height: 100%; width: 100%
+.card-background {
+  position: absolute;
+  z-index: 1;
+  height: 100%;
+  width: 100%;
 }
 
-.card-user-img{
-    position: absolute;
-    z-index: 2;
-    border-radius: 50%;
-    top: 16%;
-    right: 24%;
-    width: 117px;
-    height: 117px;
+.card-user-img {
+  position: absolute;
+  z-index: 2;
+  border-radius: 50%;
+  top: 16%;
+  right: 24%;
+  width: 117px;
+  height: 117px;
 }
-.card-info{
-    z-index: 3;
-    text-align: center;
-    position: relative;
-    padding-top: 87%;
+.card-info {
+  z-index: 3;
+  text-align: center;
+  position: relative;
+  padding-top: 87%;
+}
+mat-dialog-content {
+  margin: 0;
+  padding: 0;
 }

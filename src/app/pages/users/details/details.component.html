@@ -25,17 +25,25 @@
         class="custom-card"
         [style.width.cm]="this.defaults?.PrintOptions[0].cardWidth + 0.5"
         [style.height.cm]="this.defaults?.PrintOptions[0].cardHight + 0.7"
-        style="background-size: cover;  position: relative"
+        style="background-size: cover; position: relative"
       >
         <img
           [src]="displayBase64(card?.photo)"
-          class="card-user-img"
+          style="
+            position: absolute;
+            z-index: 2;
+            border-radius: 50%;
+            top: 16%;
+            right: 24%;
+            width: 117px;
+            height: 117px;
+          "
           onerror="this.src='assets/img/demo/user.png'"
           alt=""
         />
         <img
           [src]="displayBase64(defaults?.PrintOptions[0].backgroundPic)"
-          class="card-background"
+          style="position: absolute; z-index: 1; height: 100%; width: 100%"
         />
         <div class="card-info">
           <p
@@ -78,9 +86,16 @@
         <img
           [src]="displayBase64(defaults?.PrintOptions[0].backgroundPic)"
           alt=""
-          class="card-background"
+          style="position: absolute; z-index: 1; height: 100%; width: 100%"
         />
-        <div class="card-info">
+        <div
+          style="
+            z-index: 3;
+            text-align: center;
+            position: relative;
+            padding-top: 87%;
+          "
+        >
           <p
             [style.font-style]="this.defaults?.PrintOptions[0].fontStyle"
             [style.font-size.px]="this.defaults?.PrintOptions[0].fontSize"

@@ -33,7 +33,7 @@
             position: absolute;
             z-index: 2;
             /* border-radius: 50%; */
-            top: 21%;
+            top: 27%;
             right: 24%;
             width: 117px;
             height: 117px;
@@ -47,23 +47,25 @@
         />
         <div class="card-info">
           <p
-            [style.font-style]="this.defaults?.PrintOptions[0].fontStyle"
+          style="margin-bottom: 0!important;"
+          [style.font-style]="this.defaults?.PrintOptions[0].fontStyle"
             [style.font-size.px]="this.defaults?.PrintOptions[0].fontSize"
             [style.color]="this.defaults?.PrintOptions[0].fontColor"
           >
             {{ card.user_id || "N/A" }}
           </p>
           <p
-            [style.font-style]="this.defaults?.PrintOptions[0].fontStyle"
+          [style.font-style]="this.defaults?.PrintOptions[0].fontStyle"
             [style.font-size.px]="this.defaults?.PrintOptions[0].fontSize"
             [style.color]="this.defaults?.PrintOptions[0].fontColor"
-            style="font-weight: bold"
+            style="font-weight: bold;margin-bottom: 0!important;"
           >
             {{ card.name || "N/A" }}
           </p>
 
           <p
-            [style.font-style]="this.defaults?.PrintOptions[0].fontStyle"
+          style="margin-bottom: 0!important;"
+          [style.font-style]="this.defaults?.PrintOptions[0].fontStyle"
             [style.font-size.px]="this.defaults?.PrintOptions[0].fontSize"
             [style.color]="this.defaults?.PrintOptions[0].fontColor"
           >
@@ -88,23 +90,18 @@
           alt=""
           style="position: absolute; z-index: 1; height: 100%; width: 100%"
         />
-        <div
-          style="
-            z-index: 3;
-            text-align: center;
-            position: relative;
-            padding-top: 87%;
-          "
-        >
+        <div class="card-info">
           <p
-            [style.font-style]="this.defaults?.PrintOptions[0].fontStyle"
+          style="margin-bottom: 0!important;"
+          [style.font-style]="this.defaults?.PrintOptions[0].fontStyle"
             [style.font-size.px]="this.defaults?.PrintOptions[0].fontSize"
             [style.color]="this.defaults?.PrintOptions[0].fontColor"
           >
             {{ card.department || "N/A" }}
           </p>
           <p
-            [style.font-style]="this.defaults?.PrintOptions[0].fontStyle"
+          style="margin-bottom: 0!important;"
+          [style.font-style]="this.defaults?.PrintOptions[0].fontStyle"
             [style.font-size.px]="this.defaults?.PrintOptions[0].fontSize"
             [style.color]="this.defaults?.PrintOptions[0].fontColor"
           >

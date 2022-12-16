@@ -6,7 +6,7 @@ body{
     position: absolute; z-index: 1; height: 100%; width: 100%
 }
 
-.card-user-img{
+/* .card-user-img{
     position: absolute;
     z-index: 2;
     border-radius: 50%;
@@ -14,15 +14,21 @@ body{
     right: 24%;
     width: 117px;
     height: 117px;
-}
+} */
 .card-info{
     z-index: 3;
     text-align: center;
     position: relative;
-    padding-top: 87%;
+    padding-top: 92%;
+}
+ p{
+    margin-bottom: 0!important;
+    margin-top: 0!important;
+
 }
 
-.custom-card{
+
+/* .custom-card{
     width: 6.5cm;
     height: 9.9cm;
-}
+} */

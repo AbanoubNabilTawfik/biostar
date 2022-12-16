@@ -32,8 +32,8 @@
           style="
             position: absolute;
             z-index: 2;
-            border-radius: 50%;
-            top: 16%;
+            /* border-radius: 50%; */
+            top: 21%;
             right: 24%;
             width: 117px;
             height: 117px;
@@ -50,16 +50,16 @@
             [style.font-style]="this.defaults?.PrintOptions[0].fontStyle"
             [style.font-size.px]="this.defaults?.PrintOptions[0].fontSize"
             [style.color]="this.defaults?.PrintOptions[0].fontColor"
-            style="font-weight: bold"
           >
-            {{ card.name || "N/A" }}
+            {{ card.user_id || "N/A" }}
           </p>
           <p
             [style.font-style]="this.defaults?.PrintOptions[0].fontStyle"
             [style.font-size.px]="this.defaults?.PrintOptions[0].fontSize"
             [style.color]="this.defaults?.PrintOptions[0].fontColor"
+            style="font-weight: bold"
           >
-            {{ card.user_id || "N/A" }}
+            {{ card.name || "N/A" }}
           </p>
 
           <p

@@ -109,6 +109,13 @@ export class ListComponent implements OnInit {
       visible: true,
     },
     {
+      label: "Is Active",
+      property: "isActive",
+      type: "boolean",
+      cssClasses: ["text-secondary"],
+      visible: true,
+    },
+    {
       label: "Font Size",
       property: "fontSize",
       type: "text",
@@ -215,6 +222,8 @@ export class ListComponent implements OnInit {
         this.dataSource = res['data'].list.$values;
         this.filteredData = this.dataSource;
         // this.subject$.next( this.filteredData);
+        console.log(this.dataSource);
+        
         this.spinner.hide();
 
       },

@@ -176,8 +176,7 @@ export class CreateEditComponent implements OnInit {
       this.Form.controls["CardHight"].value.toString()
     );
     formData.append("IsBack", this.Form.controls["IsBack"].value.toString());
-    formData.append("isActive", this.Form.controls["isActive"].value.toString()
-    );
+    //formData.append("isActive", this.Form.controls["isActive"].value.toString());
     this.spinner.show();
 
     if (this.defaults == null) {

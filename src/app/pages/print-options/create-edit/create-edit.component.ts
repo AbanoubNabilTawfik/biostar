@@ -29,7 +29,7 @@ export class CreateEditComponent implements OnInit {
   FontSize: any;
   FontColor: any;
   formatedImage: any;
-  IsBack:any
+  IsBack: any;
   constructor(
     private fb: FormBuilder,
     public SharedService: SharedService,
@@ -46,11 +46,12 @@ export class CreateEditComponent implements OnInit {
     console.log(this.defaults);
     this.initForm();
   }
-  displayBase64(url){
-    let result:any = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${url}`) 
-    return result
+  displayBase64(url) {
+    let result: any = this.sanitizer.bypassSecurityTrustResourceUrl(
+      `data:image/png;base64, ${url}`
+    );
+    return result;
   }
-
 
   initForm() {
     this.Form = this.fb.group({
@@ -64,6 +65,7 @@ export class CreateEditComponent implements OnInit {
           // Validators.pattern(Patterns.lettersorsymbolsorspaces),
         ],
       ],
+
       FontSize: [
         1,
         [
@@ -93,27 +95,25 @@ export class CreateEditComponent implements OnInit {
           // Validators.pattern(Patterns.lettersorsymbolsorspaces),
         ],
       ],
-      IsBack:[false, [Validators.required]]
+      IsBack: [false, [Validators.required]],
     });
 
-    this.initFormInEdit()
+    this.initFormInEdit();
   }
-  initFormInEdit(){
+  initFormInEdit() {
     if (this.defaults !== null) {
       console.log(this.defaults);
-      
-      this.CardWidth=this.defaults.cardWidth
-      this.CardHeight=this.defaults.cardHight
-      this.FontStyle=this.defaults.fontStyle
-      this.FontSize=this.defaults.fontSize
-      this.FontColor=this.defaults.fontColor
-      this.IsBack= this.defaults.isBack 
-      this.Form.get('IsBack').patchValue(this.defaults.isBack)
-      setTimeout(()=>{
-        this.imgURL = this.displayBase64 (this.defaults.backgroundPic)
-        
-      },1000)
-      
+
+      this.CardWidth = this.defaults.cardWidth;
+      this.CardHeight = this.defaults.cardHight;
+      this.FontStyle = this.defaults.fontStyle;
+      this.FontSize = this.defaults.fontSize;
+      this.FontColor = this.defaults.fontColor;
+      this.IsBack = this.defaults.isBack;
+      this.Form.get("IsBack").patchValue(this.defaults.isBack);
+      setTimeout(() => {
+        this.imgURL = this.displayBase64(this.defaults.backgroundPic);
+      }, 1000);
     }
   }
   preview(files: any) {
@@ -128,7 +128,6 @@ export class CreateEditComponent implements OnInit {
     this.imgName = files[0].name;
     reader.readAsDataURL(files[0]);
     reader.onload = (_event) => {
-
       this.imgURL = reader.result;
       let imgBase6 = (reader.result as string).substr(
         (reader.result as string).indexOf(",") + 1
@@ -139,24 +138,28 @@ export class CreateEditComponent implements OnInit {
   }
 
   submit() {
+    console.log(this.Form.get("FontColor").value);
+
     const formData: FormData = new FormData();
     if (this.newsImgB64 !== undefined) {
       formData.append("BackgroundPic", this.newsImgB64, this.newsImgB64.name);
     }
-    if(this.defaults !== null){
-    formData.append(
-      "Id",
-      this.defaults.id
-    );
+    if (this.defaults !== null) {
+      formData.append("Id", this.defaults.id);
     }
     formData.append(
       "FontColor",
-      this.Form.controls["FontColor"].value.toString()
+
+      this.Form.controls["FontColor"].value == undefined
+        ? "#000000"
+        : this.Form.controls["FontColor"].value.toString()
     );
-    formData.append(
-      "FontSize",
-      this.Form.controls["FontSize"].value.toString()
-    );
+    if (this.Form.controls["FontSize"].value !== undefined) {
+      formData.append(
+        "FontSize",
+        this.Form.controls["FontSize"].value.toString()
+      );
+    }
     formData.append(
       "FontStyle",
       this.Form.controls["FontStyle"].value.toString()
@@ -169,29 +172,29 @@ export class CreateEditComponent implements OnInit {
       "CardHight",
       this.Form.controls["CardHight"].value.toString()
     );
-    formData.append(
-      "IsBack",
-      this.Form.controls["IsBack"].value.toString()
-    );
+    formData.append("IsBack", this.Form.controls["IsBack"].value.toString());
 
     this.spinner.show();
 
-  if(this.defaults == null){  this.PrintOptionsService.setPrintOptions(formData).subscribe(
-      (response: any) => {
-        this.dialogRef.close("reload");
-        this.commonService.openSnackBar(
-          "you are set your options successfully",
-          "x"
-        );
-      },
-      (error: Error) => {
-        this.spinner.hide();
-        this.commonService.openSnackBarError("error in set options", "x");
-      }
-    );}
-    else{
-
-      this.PrintOptionsService.updatePrintOptionsById(this.defaults.id, formData).subscribe(
+    if (this.defaults == null) {
+      this.PrintOptionsService.setPrintOptions(formData).subscribe(
+        (response: any) => {
+          this.dialogRef.close("reload");
+          this.commonService.openSnackBar(
+            "you are set your options successfully",
+            "x"
+          );
+        },
+        (error: Error) => {
+          this.spinner.hide();
+          this.commonService.openSnackBarError("error in set options", "x");
+        }
+      );
+    } else {
+      this.PrintOptionsService.updatePrintOptionsById(
+        this.defaults.id,
+        formData
+      ).subscribe(
         (response: any) => {
           this.dialogRef.close("reload");
           this.commonService.openSnackBar(

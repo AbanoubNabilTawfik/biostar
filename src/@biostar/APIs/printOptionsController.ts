@@ -7,6 +7,5 @@ export const PrintOptionsController = {
     ActivePrintOptions: BaseURL + `/PrintOptions/GetActiveOption`,
     GetGroups: BaseURL + `/LookUps/GetGroups`,
     GetGender: BaseURL + `/LookUps/GetGender`,
-
-
+    UpdateActive: BaseURL + `/PrintOptions/UpdateActive`,
 }

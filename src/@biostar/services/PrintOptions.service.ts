@@ -1,7 +1,7 @@
 
 import { Injectable } from '@angular/core';
 import { PrintOptionsController } from '../APIs/PrintOptionsController';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +39,9 @@ GetGroups() {
 GetGender() {
   return this.http.get(PrintOptionsController.GetGender);
 }
-
+UpdateActive(id: any,IsActive:any) {
+  //  IsActive = new HttpParams()
+  return this.http.put(`${PrintOptionsController.UpdateActive}/${id}?IsActive=${IsActive}`,{});
+}
 
 }

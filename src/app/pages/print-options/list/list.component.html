@@ -236,6 +236,37 @@
             </td>
           </ng-container>
         </ng-container>
+        <!-- array5 Columns -->
+        <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
+          <ng-container
+            *ngIf="column.type === 'array5'"
+            [matColumnDef]="column.property"
+          >
+            <th
+              *matHeaderCellDef
+              class="uppercase"
+              mat-header-cell
+              mat-sort-header
+            >
+              {{ column.label | translate }}
+            </th>
+            <td
+              *matCellDef="let row"
+              [ngClass]="column.cssClasses"
+              mat-cell
+              style="text-align: start !important"
+            >
+              <mat-slide-toggle
+                color="primary"
+                [checked]="row?.isActive == true ? true : false"
+                (click)="
+                  row?.isActive == true ? deactivate(row.id) : activate(row.id)
+                "
+              ></mat-slide-toggle>
+            </td>
+          </ng-container>
+        </ng-container>
+
         <!-- date -->
         <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
           <ng-container

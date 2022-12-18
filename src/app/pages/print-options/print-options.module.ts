@@ -114,7 +114,6 @@ import { NgxSpinnerModule } from "ngx-spinner";
   MatSlideToggleModule,
   NgxSpinnerModule,
   // NgxMatDatetimePickerModule,
-
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 

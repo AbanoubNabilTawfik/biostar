@@ -138,8 +138,6 @@ export class CreateEditComponent implements OnInit {
   }
 
   submit() {
-    console.log(this.Form.get("FontColor").value);
-
     const formData: FormData = new FormData();
     if (this.newsImgB64 !== undefined) {
       formData.append("BackgroundPic", this.newsImgB64, this.newsImgB64.name);

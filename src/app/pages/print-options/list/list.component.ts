@@ -79,7 +79,14 @@ export class ListComponent implements OnInit {
     //   cssClasses: ["text-secondary"],
     //   visible: true,
     // },
-
+    {
+      label: "Active Status",
+      property: "isActive",
+      type: "array5",
+      cssClasses: ["text-secondary"],
+      visible: true,
+    },
+    
     {
       label: "Background image",
       property: "backgroundPic",
@@ -123,29 +130,6 @@ export class ListComponent implements OnInit {
       visible: true,
     },
 
-    
-    
-    // {
-    //   label: "user Issue Email",
-    //   property: "userIssueEmail",
-    //   type: "text",
-    //   cssClasses: ["text-secondary"],
-    //   visible: true,
-    // },
-    // {
-    //   label: "status",
-    //   property: "statusStr",
-    //   type: "TypeStr",
-    //   cssClasses: ["text-secondary"],
-    //   visible: true,
-    // },
-    // {
-    //   label: "issue Type",
-    //   property: "issueTypeStr",
-    //   type: "TypeStr",
-    //   cssClasses: ["text-secondary"],
-    //   visible: true,
-    // },
 
     { label: "Actions", property: "actions", type: "button", visible: true },
   ];
@@ -320,28 +304,40 @@ export class ListComponent implements OnInit {
   
     
   }
-  SendMessage(Issue) {
-    // this.dialog.open(SendMessageComponent, {
-    //   data: Issue
-    // }).afterClosed().subscribe((res: any) => {
-    //   if (res == "reload") {
-    //     this.ngOnInit();
-    //   }
-    // })
-  }
+  activate(id: number) {
+    this.spinner.show();
 
-//   convertBase64(dataurl, filename?) {
- 
-//     var arr = dataurl.split(','),
-//         mime = arr[0].match(/:(.*?);/)[1],
-//         bstr = atob(arr[1]), 
-//         n = bstr.length, 
-//         u8arr = new Uint8Array(n);
-        
-//     while(n--){
-//         u8arr[n] = bstr.charCodeAt(n);
-//     }
-    
-//     return new File([u8arr], filename, {type:mime});
-// }
+    this.PrintOptionsService.UpdateActive(id, true).subscribe(
+      (res: any) => {
+        this.commonService.openSnackBar('done', 'x')
+        this.getPrintOptions();
+        this.spinner.hide();
+
+      },
+      (err) => {
+        this.commonService.openSnackBarError('error', 'x');
+        this.spinner.hide();
+
+      },
+
+    );
+  }
+  deactivate(id: number) {
+    this.spinner.show();
+
+    this.PrintOptionsService.UpdateActive(id, false).subscribe(
+      (res: any) => {
+        this.commonService.openSnackBar('done', 'x')
+        this.getPrintOptions();
+        this.spinner.hide();
+
+      },
+      (err) => {
+        this.commonService.openSnackBarError('error', 'x');
+        this.spinner.hide();
+
+      },
+
+    );
+  }
 }

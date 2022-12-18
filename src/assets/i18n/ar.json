@@ -56,6 +56,8 @@
     "Card Face" : "وجه البطاقة" ,
     "Card Width In CM":"عرض البطاقة بالسنتيمتر",
     "Card Height In CM": "ارتفاع البطاقة بالسنتيمتر",
-    "test paragraph":"فقرة اختبار"
+    "test paragraph":"فقرة اختبار",
+    "Status":"الحالة"
+
 
 }

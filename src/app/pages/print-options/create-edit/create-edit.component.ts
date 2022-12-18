@@ -30,6 +30,7 @@ export class CreateEditComponent implements OnInit {
   FontColor: any;
   formatedImage: any;
   IsBack: any;
+  IsActive:any;
   constructor(
     private fb: FormBuilder,
     public SharedService: SharedService,
@@ -96,6 +97,7 @@ export class CreateEditComponent implements OnInit {
         ],
       ],
       IsBack: [false, [Validators.required]],
+      IsActive:[false]
     });
 
     this.initFormInEdit();
@@ -110,6 +112,7 @@ export class CreateEditComponent implements OnInit {
       this.FontSize = this.defaults.fontSize;
       this.FontColor = this.defaults.fontColor;
       this.IsBack = this.defaults.isBack;
+      this.IsActive= this.defaults.isActive 
       this.Form.get("IsBack").patchValue(this.defaults.isBack);
       setTimeout(() => {
         this.imgURL = this.displayBase64(this.defaults.backgroundPic);
@@ -171,7 +174,7 @@ export class CreateEditComponent implements OnInit {
       this.Form.controls["CardHight"].value.toString()
     );
     formData.append("IsBack", this.Form.controls["IsBack"].value.toString());
-
+    //formData.append("isActive", this.Form.controls["isActive"].value.toString());
     this.spinner.show();
 
     if (this.defaults == null) {

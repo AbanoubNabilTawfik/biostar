@@ -129,6 +129,7 @@ export class AuthService {
     // if (user && user.token) {
     //   headers = headers.append('Authorization', user.token);
     // }
+console.log(model);
 
     return this.http.post(AccountController.Register, model);
   }

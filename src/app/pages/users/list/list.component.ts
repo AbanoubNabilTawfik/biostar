@@ -201,6 +201,8 @@ export class ListComponent implements OnInit {
     this.PrintOptionsService.getActivePrintOptions(params).subscribe(
       (res) => {
         this.PrintOptions = res["data"].list.$values;
+        console.log(this.PrintOptions);
+        
         this.filteredData.length < 1 && this.PrintOptions.length < 1
           ? this.spinner.show()
           : this.spinner.hide();

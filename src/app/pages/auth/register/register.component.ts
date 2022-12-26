@@ -78,6 +78,8 @@ export class RegisterComponent implements OnInit {
         "confirmPassword": this.form.get('confirmPassword').value,
       };
     // this.spinner.show();
+    console.log(body);
+    
     this.AuthService.Register(body).subscribe(
       (response: any) => {
         //let dir = localStorage.getItem("UserLanguage");

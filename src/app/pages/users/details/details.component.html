@@ -99,6 +99,7 @@
       <!-- <div> -->
       <!-- [ngStyle]="{ 'background-image': 'url( ;' + displayBase64(defaults?.PrintOptions[4].backgroundPic)   + ')' }" -->
       <div
+      *ngIf="this.defaults?.PrintOptions[0].isBack"
         class="custom-card"
         [style.width.cm]="this.defaults?.PrintOptions[0].cardWidth + 1"
         [style.height.cm]="this.defaults?.PrintOptions[0].cardHight + 1.5"

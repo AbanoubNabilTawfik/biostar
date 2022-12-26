@@ -34,7 +34,6 @@ export class CreateEditComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.defaults);
     this.GetGender();
     this.GetGroups();
     this.initForm();
@@ -146,7 +145,6 @@ export class CreateEditComponent implements OnInit {
     }
   }
   preview(files: any) {
-    // console.log(files)
     if (files.length === 0) return;
     this.imgAsBinary = files[0];
     let mimeType = files[0].type;

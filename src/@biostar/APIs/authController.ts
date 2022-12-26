@@ -1,7 +1,7 @@
 import {BaseURL} from './../config';
 
 export const AccountController = {
-    login: BaseURL + `/login`,
-
+    login: BaseURL + `/Authentication/login`,
+    Register: BaseURL + `Authentication/register`,
 
 }

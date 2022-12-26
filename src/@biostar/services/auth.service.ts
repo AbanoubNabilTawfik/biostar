@@ -19,19 +19,19 @@ export class AuthService {
 
   constructor(
     private router: Router,
-    private HttpService: HttpService,
+    //private HttpService: HttpService,
     private http: HttpClient
   ) {
-    this.user = JSON.parse(localStorage.getItem("lease_user"));
+   /* this.user = JSON.parse(localStorage.getItem("app_user"));
     if (this.user != null) {
       this.loggedInUser$.next(this.user);
       this.loadingAction$.next(false);
-    }
+    }*/
   }
 
   // store user data after login succeffully
   updateStoredUserInfo(userData) {
-    let user = JSON.parse(localStorage.getItem("lease_user"));
+    let user = JSON.parse(localStorage.getItem("app_user"));
     user.firstName = userData && userData.firstName ? userData.firstName : null;
     user.lastName = userData && userData.lastName ? userData.lastName : null;
     user.phoneNumber =
@@ -39,22 +39,23 @@ export class AuthService {
     if (userData.personalImagePath) {
       user.personalImagePath = userData.personalImagePath;
     }
-    localStorage.setItem("lease_user", JSON.stringify(user));
+    localStorage.setItem("app_user", JSON.stringify(user));
 
     this.loggedInUser$.next(user);
   }
 
   updateStoredUserRoles(roles: string[]) {
-    let user = JSON.parse(localStorage.getItem("lease_user"));
+    let user = JSON.parse(localStorage.getItem("app_user"));
     user.userRoles = roles;
-    localStorage.setItem("lease_user", JSON.stringify(user));
+    localStorage.setItem("app_user", JSON.stringify(user));
     this.loggedInUser$.next(user);
   }
 
   refreshToken(token: string) {
-    let user = JSON.parse(localStorage.getItem("lease_user"));
+    let user = JSON.parse(localStorage.getItem("app_user"));
+    
     user.token = "Bearer " + token;
-    localStorage.setItem("lease_user", JSON.stringify(user));
+    localStorage.setItem("app_user", JSON.stringify(user));
     this.loggedInUser$.next(user);
   }
 
@@ -64,31 +65,31 @@ export class AuthService {
     // JSON.parse(user), to return user to an normal object
     user.is_token_expired = false;
     user.token = "Bearer " + user.token;
-    localStorage.setItem("lease_user", JSON.stringify(user));
+    localStorage.setItem("app_user", JSON.stringify(user));
 
-    this.loggedInUser$.next(JSON.parse(localStorage.getItem("lease_user")));
+    this.loggedInUser$.next(JSON.parse(localStorage.getItem("app_user")));
   }
 
   // load the data
   loadToken() {
     if (
       localStorage.getItem("user") &&
-      JSON.parse(localStorage.getItem("lease_user")).token
+      JSON.parse(localStorage.getItem("app_user")).token
     ) {
-      this.user = JSON.parse(localStorage.getItem("lease_user"));
+      this.user = JSON.parse(localStorage.getItem("app_user"));
     }
   }
 
   // check the role
   roleMatch(allowedRoles: string[]): boolean {
-    if (!localStorage.getItem("lease_user")) {
+    if (!localStorage.getItem("app_user")) {
       this.router.navigate(["/auth/login"]);
       return false;
     }
 
     let isMatch = false;
     let userRoles: string[] = JSON.parse(
-      localStorage.getItem("lease_user")
+      localStorage.getItem("app_user")
     ).userRoles;
     allowedRoles.forEach((elem) => {
       if (userRoles.indexOf(elem) > -1) {
@@ -106,15 +107,48 @@ export class AuthService {
   }
 
   login(model: any) {
-    const user = JSON.parse(localStorage.getItem('lease_user'));
+    const app_user = JSON.parse(localStorage.getItem('app_user'));
+    const id_token = JSON.parse(localStorage.getItem('id_token'));
     let headers: HttpHeaders = new HttpHeaders();
-    headers=   headers.append('Accept', 'application/json');
-    headers=   headers.append('rejectUnauthorized', 'false');
+    headers = headers.append('Accept', 'application/json');
+    headers = headers.append('rejectUnauthorized', 'false');
+
+    if (id_token) {
+      headers = headers.append('Authorization', id_token);
+    }
+
+    return this.http.post(AccountController.login, model);
+  }
+
+  Register(model: any) {
+    const user = JSON.parse(localStorage.getItem('app_user'));
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('Accept', 'application/json');
+    headers = headers.append('rejectUnauthorized', 'false');
 
     // if (user && user.token) {
     //   headers = headers.append('Authorization', user.token);
     // }
 
-    return this.http.post(AccountController.login, model);
+    return this.http.post(AccountController.Register, model);
   }
+
+  logout() {
+    localStorage.removeItem("id_token");
+    //localStorage.removeItem("expires_at");
+  }
+  /*
+  public isLoggedIn() {
+    return moment().isBefore(this.getExpiration());
+  }
+  
+  isLoggedOut() {
+      return !this.isLoggedIn();
+  }
+  
+  getExpiration() {
+      const expiration = localStorage.getItem("expires_at");
+      const expiresAt = JSON.parse(expiration);
+      return moment(expiresAt);
+  } */
 }

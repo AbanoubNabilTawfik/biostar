@@ -27,15 +27,11 @@ export class DetailsComponent implements OnInit {
 
   cards: any = [];
   ngOnInit(): void {
-    console.log(this.defaults.row);
     this.cards = this.defaults;
     if (this.cards.length == 1) {
-      console.log("one ele");
       this.cards = [this.defaults.row];
     } else {
-      console.log("more than one ele");
       this.cards = this.defaults.row;
-      console.log(this.cards);
     }
     // console.log(this.cards ,this.defaults.row[0]);
   }

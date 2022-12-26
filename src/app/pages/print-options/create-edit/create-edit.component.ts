@@ -44,7 +44,6 @@ export class CreateEditComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.defaults);
     this.initForm();
   }
   displayBase64(url) {
@@ -104,8 +103,6 @@ export class CreateEditComponent implements OnInit {
   }
   initFormInEdit() {
     if (this.defaults !== null) {
-      console.log(this.defaults);
-
       this.CardWidth = this.defaults.cardWidth;
       this.CardHeight = this.defaults.cardHight;
       this.FontStyle = this.defaults.fontStyle;
@@ -120,7 +117,6 @@ export class CreateEditComponent implements OnInit {
     }
   }
   preview(files: any) {
-    // console.log(files)
     if (files.length === 0) return;
     this.imgAsBinary = files[0];
     let mimeType = files[0].type;

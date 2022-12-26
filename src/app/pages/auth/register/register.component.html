@@ -18,7 +18,7 @@
       <form
         [formGroup]="form"
         name="form"
-        (ngSubmit)="login()"
+        (ngSubmit)="RegisterNewUser()"
         class="form-login mb-5 p-5"
         role="form"
         style="
@@ -30,7 +30,7 @@
         <div class="row">
           <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="Sign-In mb-4">
-              {{ "Sign In" | translate }}
+              {{ "Register" | translate }}
             </div>
           </div>
           <div class="col-md-12 col-sm-12 col-xs-12">
@@ -47,6 +47,32 @@
                   form.get('email').touched
                 "
                 >{{ "Enter Vaild Email or Phone Number" | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <mat-form-field
+              appearance="outline"
+              fxFlex="auto"
+              [color]="form.valid ? 'red' : 'red'"
+            >
+              <mat-label>{{ "Username" | translate }}*</mat-label>
+              <input
+                cdkFocusInitial
+                formControlName="username"
+                type="text"
+                placeholder="{{ 'username' | translate }}"
+                matInput
+                class="p-relative"
+              />
+              <mat-error
+                *ngIf="
+                  form.get('username').hasError('username') &&
+                  form.get('username').touched
+                "
+                >{{ "Username Is Required" | translate }}
               </mat-error>
             </mat-form-field>
           </div>
@@ -86,6 +112,40 @@
           </div>
         </div>
         <div class="row">
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <mat-form-field
+              appearance="outline"
+              fxFlex="auto"
+              [color]="form.valid ? 'red' : 'red'"
+            >
+              <mat-label>{{ "confirmPassword" | translate }}*</mat-label>
+              <input
+                cdkFocusInitial
+                formControlName="confirmPassword"
+                type="password"
+                [type]="!visible ? 'password' : 'text'"
+                placeholder="{{ 'Confirm Password' | translate }}"
+                matInput
+                class="p-relative"
+              />
+              <mat-icon
+                (click)="visible = !visible"
+                style="cursor: pointer; background-size: cover; position: absolute; left: 1%"
+              >
+                {{ visible ? "visibility_off" : "visibility" }}
+              </mat-icon>
+
+              <mat-error
+                *ngIf="
+                  form.get('confirmPassword').hasError('required') &&
+                  form.get('confirmPassword').touched
+                "
+                >{{ "Confirm Password Is Required" | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
           <!-- <div class="col-md-6 col-sm-6 col-xs-12 mt-3">
             <button
               type="button"
@@ -99,20 +159,20 @@
           <!-- <div class="col-md-6 col-sm-6 col-xs-12 mt-3"> -->
           <button
             type="submit"
-            (click)="login()"
+            (click)="RegisterNewUser()"
             style="border: solid 2px #3d3f54; background-color: #3d3f54"
             class="btn-lg btn-block"
             [disabled]="form.invalid"
           >
-            {{ "Login" | translate }}
+            {{ "Register" | translate }}
           </button>
           <button
             type="submit"
-            (click)="Register()"
-            style="border: solid 2px #5b5e7c; background-color: #5b5e7c"
+            (click)="login()"
+            style="border: solid 2px #5c5e77; background-color: #6f7294"
             class="btn-lg btn-block"
           >
-            {{ "Register" | translate }}
+            {{ "Login" | translate }}
           </button>
           <!-- </div> -->
         </div>

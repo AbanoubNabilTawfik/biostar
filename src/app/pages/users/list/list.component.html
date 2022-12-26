@@ -107,7 +107,7 @@
         >
           <mat-icon> print </mat-icon>
         </button>
-        <button
+       <!-- <button
           (click)="openCreateEdit(null)"
           class="ml-4"
           color="primary"
@@ -117,7 +117,7 @@
           type="button"
         >
           <mat-icon [icIcon]="icAdd"></mat-icon>
-        </button>
+        </button>-->
       </div>
 
       <table
@@ -445,14 +445,14 @@
         <mat-icon> print </mat-icon>
         <span>{{ "Print" | translate }}</span>
       </button>
-      <button (click)="openCreateEdit(Issue)" mat-menu-item>
+    <!--<button (click)="openCreateEdit(Issue)" mat-menu-item>
         <mat-icon [icIcon]="icEdit"></mat-icon>
         <span>{{ "Update" | translate }}</span>
       </button>
       <button (click)="onDelete(Issue)" mat-menu-item>
         <mat-icon>delete </mat-icon>
         <span>{{ "Delete" | translate }}</span>
-      </button>
+      </button>-->
     </ng-template>
   </mat-menu>
 </div>

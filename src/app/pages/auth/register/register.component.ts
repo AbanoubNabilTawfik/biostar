@@ -4,15 +4,14 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from "@angular/router";
 import icVisibility from "@iconify/icons-ic/twotone-visibility";
 import icVisibilityOff from "@iconify/icons-ic/twotone-visibility-off";
-import { ResDTO } from "src/@biostar/Models/res.dto";
 import { AuthService } from "src/@biostar/services/auth.service";
 import { CommonService } from "src/@biostar/services/common.service";
 @Component({
-  selector: "vex-login",
-  templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.scss"],
+  selector: "vex-register",
+  templateUrl: "./register.component.html",
+  styleUrls: ["./register.component.scss"],
 })
-export class LoginComponent implements OnInit {
+export class RegisterComponent implements OnInit {
   form: FormGroup;
 
   inputType = "password";
@@ -28,20 +27,22 @@ export class LoginComponent implements OnInit {
     private snackbar: MatSnackBar,
     private AuthService: AuthService,
     private commonService: CommonService,
-    // private alertifyService : 
     // private spinner: NgxSpinnerService,
 
     // spinner
 
-
-  ) { }
+    
+  ) {}
 
   ngOnInit() {
     this.form = this.fb.group({
+      username: ["", Validators.required],
       email: ["", Validators.required],
       password: ["", Validators.required],
+      confirmPassword: ["", Validators.required],
     });
   }
+
 
   send() {
     this.router.navigate(["/"]);
@@ -65,46 +66,25 @@ export class LoginComponent implements OnInit {
   //     this.cd.markForCheck();
   //   }
   // }
-
-  Register()
+  login()
   {
-    this.router.navigateByUrl('/auth/register');
+    this.router.navigateByUrl('/auth/login');
   }
-
-  login() {
+  RegisterNewUser() {
     let body = {
-      "account": this.form.get('email').value,
-      "password": this.form.get('password').value,
-    };
-
+        "username":this.form.get('username').value,
+        "email": this.form.get('email').value,
+        "password":this.form.get('password').value,
+        "confirmPassword": this.form.get('confirmPassword').value,
+      };
     // this.spinner.show();
-    this.AuthService.login(body).subscribe(
-      (response: ResDTO) => {
-        if (!response.isError) {
-          var tokendata = JSON.stringify(response.serverParams.Data);
-          let user_token = localStorage.setItem('tokendata', tokendata); //response.serverParams.Data.User);
-          let app_user = localStorage.setItem('app_user', JSON.stringify(response.serverParams.Data.User));
-          let dirToken = localStorage.setItem('id_token', JSON.stringify(response.serverParams.Data.Access_token));
-          this.commonService.openSnackBar(
-            "Login successfully",
-            "x"
-          );
-          this.router.navigateByUrl('/');
-        }
-        else {
-          this.commonService.openSnackBar(
-            "Can Not Find this User",
-            "x"
-          );
-        }
+    this.AuthService.Register(body).subscribe(
+      (response: any) => {
+        //let dir = localStorage.getItem("UserLanguage");
       },
       (error: Error) => {
         // this.spinner.hide();
         // this.alertifyService.error('technical error ');
-        this.commonService.openSnackBar(
-          "technical error ",
-          "x"
-        );
       }
     );
   }

@@ -248,8 +248,6 @@ export class ListComponent implements OnInit {
   }
 
   onDelete(row: any) {
-    console.log(row);
-
     this.commonService
       .openConfirmDialog("Are you sure you want to delete this record ?")
       .afterClosed()

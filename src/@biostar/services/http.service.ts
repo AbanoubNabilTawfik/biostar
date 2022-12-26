@@ -5,7 +5,7 @@ import { throwError, Observable } from 'rxjs';
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map, mergeMap, catchError } from 'rxjs/operators';
-// import { AuthService } from './auth.service';
+import { AuthService } from './auth.service';
 
 
 
@@ -18,20 +18,20 @@ export class HttpService {
   constructor(
     private router: Router,
     private http: HttpClient,
-    // private authService: AuthService
-  ) { 
-    this.user = JSON.parse(localStorage.getItem("lease_user"));
+    //private authService: AuthService
+  ) {
+    this.user = JSON.parse(localStorage.getItem("app_user"));
     if (this.user != null) {
-      this.loggedInUser$.next(this.user);
-      this.loadingAction$.next(false);
+      // this.loggedInUser$.next(this.user);
+      //this.loadingAction$.next(false);
     }
   }
 
 
   setTokenExpiriation(isExpire: boolean) {
-    const user = JSON.parse(localStorage.getItem('lease_user'));
+    const user = JSON.parse(localStorage.getItem('app_user'));
     user.is_token_expired = isExpire;
-    localStorage.setItem('lease_user', JSON.stringify(user));
+    localStorage.setItem('app_user', JSON.stringify(user));
     this.router.navigate(['/auth/lock-screen']);
   }
   prepareRequestHeaders2(containFiles: boolean = false, isExternal: boolean = false) {
@@ -47,10 +47,11 @@ export class HttpService {
 
     }
 
-    const user = JSON.parse(localStorage.getItem('lease_user'));
+    const user = JSON.parse(localStorage.getItem('app_user'));
 
-    if (user && user.token && !isExternal) {
-      headers = headers.append('Authorization', user.token);
+    const id_token = JSON.parse(localStorage.getItem('id_token'));
+    if (user && id_token && !isExternal) {
+      headers = headers.append('Authorization', 'Bearer ' + id_token);
     }
 
     return headers;
@@ -64,11 +65,10 @@ export class HttpService {
     } else {
       headers.append('Content-Type', 'application/json');
     }
-
-    const user = JSON.parse(localStorage.getItem('lease_user'));
-    if (user && user.token) {
-      headers.append('Authorization', user.token);
-      console.log(user.token)
+    const id_token = JSON.parse(localStorage.getItem('id_token'));
+    const user = JSON.parse(localStorage.getItem('app_user'));
+    if (user && id_token) {
+      headers.append('Authorization', 'Bearer ' + id_token);
     }
 
     return headers;
@@ -79,17 +79,16 @@ export class HttpService {
 
     // params
     let httpParams: HttpParams = new HttpParams();
-    if(!params) {
+    if (!params) {
       return httpParams;
     }
-
     params.forEach(res => {
-      if(res.value) {
+      if (res.value) {
 
-        if(Array.isArray(res.value)) { // Incase you pass array of Ids 
+        if (Array.isArray(res.value)) { // Incase you pass array of Ids 
           let arr = res.value as string[];
           httpParams = httpParams.append(res.key, JSON.stringify(arr.join(',')));
-        } else if(typeof res.value == 'object') {
+        } else if (typeof res.value == 'object') {
           Object.keys(res.value).forEach(k => {
             httpParams = httpParams.append(k, res.value[k]);
           })
@@ -100,7 +99,7 @@ export class HttpService {
 
       }
     })
-    
+
     return httpParams;
 
   }
@@ -109,31 +108,33 @@ export class HttpService {
   GET(url: string, params: any[] = []) {
 
     // params
-    let httpParams: HttpParams = this.ReturnParameterizedUrl(params);
-
+    let httpParams: HttpParams;//= this.ReturnParameterizedUrl(params);
+    const id_token = JSON.parse(localStorage.getItem('id_token'));
     // headers
-    const user = JSON.parse(localStorage.getItem('lease_user'));
+    const user = JSON.parse(localStorage.getItem('app_user'));
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json');
-    if (user && user.token) {
-      headers = headers.append('Authorization', user.token);
+    //if (user && id_token) {
+    if (id_token) {
+      headers = headers.append('Authorization', 'Bearer ' + id_token);
     }
 
     return this.http.get(url, { observe: 'response', params: httpParams, headers })
-    .pipe(
-      catchError(err => {
-        if (err.status <= 400 || err.status === 500) {
-          const errSTR = JSON.stringify(err);
-          const errJSON = JSON.parse(errSTR);
-          return throwError(errJSON._body);
-        } else if (err.status === 401) { // 401 (not authorized)
-          user && user.token ? this.setTokenExpiriation(true) : this.logout();
-        } else if (err.status === 403) { // 403 (Forbidden)
-          this.router.navigate(['/errors/error-403']);
-        }
-      }),
-      map(res => res.body as any)
-    );
+      .pipe(
+        catchError(err => {
+          if (err.status <= 400 || err.status === 500) {
+            const errSTR = JSON.stringify(err);
+            const errJSON = JSON.parse(errSTR);
+            return throwError(errJSON._body);
+          } else if (err.status === 401) { // 401 (not authorized)
+            user && id_token ? this.setTokenExpiriation(true) : this.logout();
+            this.router.navigate(['/auth/login']);
+          } else if (err.status === 403) { // 403 (Forbidden)
+            this.router.navigate(['/errors/error-403']);
+          }
+        }),
+        map(res => res.body as any)
+      );
 
   }
 
@@ -145,28 +146,30 @@ export class HttpService {
     let httpParams: HttpParams = this.ReturnParameterizedUrl(params);
 
     // headers
-    const user = JSON.parse(localStorage.getItem('lease_user'));
+    const id_token = JSON.parse(localStorage.getItem('id_token'));
+    const user = JSON.parse(localStorage.getItem('app_user'));
     let headers: HttpHeaders = new HttpHeaders();
     headers.append(`${containFiles ? 'Accept' : 'Content-Type'}`, 'application/json');
-    if (user && user.token) {
-      headers = headers.append('Authorization', user.token);
+    if (user && id_token) {
+      headers = headers.append('Authorization', 'Bearer ' + id_token);
     }
 
     return this.http.post(url, body, { observe: 'response', params: httpParams, headers })
-    .pipe(
-      catchError(err => {
-        if (err.status <= 400 || err.status === 500) {
-          const errSTR = JSON.stringify(err);
-          const errJSON = JSON.parse(errSTR);
-          return throwError(errJSON._body);
-        } else if (err.status === 401) { // 401 (not authorized)
-          user && user.token ? this.setTokenExpiriation(true) : this.logout();
-        } else if (err.status === 403) { // 403 (Forbidden)
-          this.router.navigate(['/errors/error-403']);
-        }
-      }),
-      map(res => res.body as any)
-    );
+      .pipe(
+        catchError(err => {
+          if (err.status <= 400 || err.status === 500) {
+            const errSTR = JSON.stringify(err);
+            const errJSON = JSON.parse(errSTR);
+            return throwError(errJSON._body);
+          } else if (err.status === 401) { // 401 (not authorized)
+            user && id_token ? this.setTokenExpiriation(true) : this.logout();
+            this.router.navigate(['/auth/login']);
+          } else if (err.status === 403) { // 403 (Forbidden)
+            this.router.navigate(['/errors/error-403']);
+          }
+        }),
+        map(res => res.body as any)
+      );
 
   }
 
@@ -177,28 +180,30 @@ export class HttpService {
     let httpParams: HttpParams = this.ReturnParameterizedUrl(params);
 
     // headers
-    const user = JSON.parse(localStorage.getItem('lease_user'));
+    const id_token = JSON.parse(localStorage.getItem('id_token'));
+    const user = JSON.parse(localStorage.getItem('app_user'));
     let headers: HttpHeaders = new HttpHeaders();
     headers.append(`${containFiles ? 'Accept' : 'Content-Type'}`, 'application/json');
-    if (user && user.token) {
-      headers = headers.append('Authorization', user.token);
+    if (user && id_token) {
+      headers = headers.append('Authorization', 'Bearer ' + id_token);
     }
 
     return this.http.put(url, body, { observe: 'response', params: httpParams, headers })
-    .pipe(
-      catchError(err => {
-        if (err.status <= 400 || err.status === 500) {
-          const errSTR = JSON.stringify(err);
-          const errJSON = JSON.parse(errSTR);
-          return throwError(errJSON._body);
-        } else if (err.status === 401) { // 401 (not authorized)
-          user && user.token ? this.setTokenExpiriation(true) : this.logout();
-        } else if (err.status === 403) { // 403 (Forbidden)
-          this.router.navigate(['/errors/error-403']);
-        }
-      }),
-      map(res => res.body as any)
-    );
+      .pipe(
+        catchError(err => {
+          if (err.status <= 400 || err.status === 500) {
+            const errSTR = JSON.stringify(err);
+            const errJSON = JSON.parse(errSTR);
+            return throwError(errJSON._body);
+          } else if (err.status === 401) { // 401 (not authorized)
+            user && id_token ? this.setTokenExpiriation(true) : this.logout();
+            this.router.navigate(['/auth/login']);
+          } else if (err.status === 403) { // 403 (Forbidden)
+            this.router.navigate(['/errors/error-403']);
+          }
+        }),
+        map(res => res.body as any)
+      );
 
   }
 
@@ -210,28 +215,30 @@ export class HttpService {
     let httpParams: HttpParams = this.ReturnParameterizedUrl(params);
 
     // headers
-    const user = JSON.parse(localStorage.getItem('lease_user'));
+    const user = JSON.parse(localStorage.getItem('app_user'));
+    const id_token = JSON.parse(localStorage.getItem('id_token'));
     let headers: HttpHeaders = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
-    if (user && user.token) {
-      headers = headers.append('Authorization', user.token);
+    if (user && id_token) {
+      headers = headers.append('Authorization', 'Bearer ' + id_token);
     }
 
     return this.http.delete(url, { observe: 'response', params: httpParams, headers })
-    .pipe(
-      catchError(err => {
-        if (err.status <= 400 || err.status === 500) {
-          const errSTR = JSON.stringify(err);
-          const errJSON = JSON.parse(errSTR);
-          return throwError(errJSON._body);
-        } else if (err.status === 401) { // 401 (not authorized)
-          user && user.token ? this.setTokenExpiriation(true) : this.logout();
-        } else if (err.status === 403) { // 403 (Forbidden)
-          this.router.navigate(['/errors/error-403']);
-        }
-      }),
-      map(res => res.body as any)
-    );
+      .pipe(
+        catchError(err => {
+          if (err.status <= 400 || err.status === 500) {
+            const errSTR = JSON.stringify(err);
+            const errJSON = JSON.parse(errSTR);
+            return throwError(errJSON._body);
+          } else if (err.status === 401) { // 401 (not authorized)
+            user && id_token ? this.setTokenExpiriation(true) : this.logout();
+            this.router.navigate(['/auth/login']);
+          } else if (err.status === 403) { // 403 (Forbidden)
+            this.router.navigate(['/errors/error-403']);
+          }
+        }),
+        map(res => res.body as any)
+      );
 
   }
 
@@ -253,8 +260,8 @@ export class HttpService {
 
   ExportToExcel(url: string) {
 
-    const user = JSON.parse(localStorage.getItem('lease_user'));
-
+    const user = JSON.parse(localStorage.getItem('app_user'));
+    const id_token = JSON.parse(localStorage.getItem('id_token'));
     return this.http.post(url, '', { headers: this.prepareRequestHeaders(), responseType: 'blob' })
       .pipe(
         catchError(err => {
@@ -264,7 +271,8 @@ export class HttpService {
             const errJSON = JSON.parse(errSTR);
             return throwError(errJSON._body);
           } else if (err.status === 401) { // 401 (not authorized)
-            user && user.token ? this.setTokenExpiriation(true) : this.logout();
+            user && id_token ? this.setTokenExpiriation(true) : this.logout();
+            this.router.navigate(['/auth/login']);
           } else if (err.status === 403) { // 403 (Forbidden)
             this.router.navigate(['/demo1/security/forbidden-page']);
           }
@@ -272,14 +280,15 @@ export class HttpService {
       );
   }
 
-    // logout
-    logout() {
-      this.user = null;
-      // localStorage.clear();
-      localStorage.removeItem("lease_user");
-      localStorage.removeItem("locationDto");
-      this.router.navigate(["/auth/login"]);
-    }
- 
+  // logout
+  logout() {
+    this.user = null;
+    localStorage.clear();
+    //localStorage.removeItem("app_user");
+    localStorage.removeItem("id_token");
+    //localStorage.removeItem("locationDto");
+    this.router.navigate(["/auth/login"]);
+  }
+
 
 }

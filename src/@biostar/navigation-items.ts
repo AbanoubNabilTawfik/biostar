@@ -17,5 +17,13 @@ export const navigationItems: NavigationItem[] = [
     //permission: ['MCSPCompanyAdmin', 'McspCarrier'],
     route: "/print-options/list",
   },
+  {
+    type: "link",
+    label: "New User",
+    icon: null,
+    // fontAwesome: "far fa-comment-dots item-icon",
+    //permission: ['MCSPCompanyAdmin', 'McspCarrier'],
+    route: "/auth/register",
+  },
 
   ]; 

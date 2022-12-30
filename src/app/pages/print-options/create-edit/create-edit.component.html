@@ -52,7 +52,22 @@
                 </div>
                 <div class="form-group" style="margin-block: 15px">
                   <mat-form-field appearance="fill" style="width: 100%">
-                    <mat-label>{{ "Card face" | translate }} *</mat-label>
+                    <mat-label>{{ "Font Family" | translate }} </mat-label>
+                    <mat-select disableRipple formControlName="fontFamily" [(ngModel)]="FontFamily">
+                      <mat-option value="ApercuProRegular"
+                      (onSelectionChange)="onSelectFontFamily()"
+                        >Apercu Pro Regular</mat-option
+                      >
+                      <mat-option value="ApercuProBold"
+                        >Apercu Pro Bold</mat-option
+                      >
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="form-group" style="margin-block: 15px">
+                  <mat-form-field appearance="fill" style="width: 100%">
+                    <mat-label>{{ "Card Face" | translate }} *</mat-label>
                     <mat-select
                       disableRipple
                       formControlName="IsBack"
@@ -118,7 +133,7 @@
                 </div>
                 <div class="form-group">
                   <label class="label-key mt-2">{{
-                    "FontSize" | translate
+                    "Font Size" | translate
                   }}</label>
                   <input
                     type="number"
@@ -129,9 +144,9 @@
                   />
                 </div>
                 <div class="form-group">
-                  <label class="label-key mt-2">{{
-                    "Font Color" | translate
-                  }} *</label>
+                  <label class="label-key mt-2"
+                    >{{ "Font Color" | translate }} *</label
+                  >
                   <input
                     type="color"
                     class="form-control input-value"
@@ -228,7 +243,6 @@
                     [style.height.cm]="CardHeight + 0.7"
                     style="background-size: cover; border-radius: 16px"
                   >
-
                     <img
                       *ngIf="this.defaults !== null"
                       [src]="displayBase64(defaults.backgroundPic)"
@@ -239,6 +253,8 @@
                       [style.font-style]="FontStyle"
                       [style.font-size.px]="FontSize"
                       [style.color]="FontColor"
+                      [class]="FontFamily == 'ApercuProRegular' ? 'ApercuProRegular' : 'ApercuProBold'"
+
                     >
                       {{ "test paragraph" | translate }}
                     </p>

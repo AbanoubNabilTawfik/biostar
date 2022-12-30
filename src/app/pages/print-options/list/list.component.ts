@@ -80,7 +80,7 @@ export class ListComponent implements OnInit {
     //   visible: true,
     // },
     {
-      label: "Active Status",
+      label: "Status",
       property: "isActive",
       type: "array5",
       cssClasses: ["text-secondary"],

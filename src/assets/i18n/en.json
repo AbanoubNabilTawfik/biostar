@@ -63,5 +63,7 @@
     "Confirm Password": "Confirm Password",
     "Confirm Password Is Required": "Confirm Password Is Required",
     "Register": "Register",
-    "New User": "Add New User"
+    "New User": "Add New User",
+    "Font Color":"Font Color",
+    "Font Family":"Font Family"
 }

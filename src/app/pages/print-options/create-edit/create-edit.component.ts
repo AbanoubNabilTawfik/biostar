@@ -28,6 +28,7 @@ export class CreateEditComponent implements OnInit {
   FontStyle: any;
   FontSize: any;
   FontColor: any;
+  FontFamily: any;
   formatedImage: any;
   IsBack: any;
   IsActive:any;
@@ -96,7 +97,8 @@ export class CreateEditComponent implements OnInit {
         ],
       ],
       IsBack: [false, [Validators.required]],
-      IsActive:[false]
+      IsActive:[false],
+      fontFamily:[null]
     });
 
     this.initFormInEdit();
@@ -205,5 +207,10 @@ export class CreateEditComponent implements OnInit {
         }
       );
     }
+  }
+
+  onSelectFontFamily(){
+    console.log(this.FontFamily);
+    
   }
 }

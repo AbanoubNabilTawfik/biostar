@@ -63,5 +63,7 @@
     "Confirm Password": "تأكيد كلمة المرور",
     "Confirm Password Is Required": "يجب تأكيد كلمة المرور",
     "Register": "تسجيل جديد",
-    "New User": "تسجيل مستخدم جديد"
+    "New User": "تسجيل مستخدم جديد",
+    "Font Color":"لون الخط",
+    "Font Family":"عائلة الخط"
 }

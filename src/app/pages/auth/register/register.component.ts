@@ -4,6 +4,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from "@angular/router";
 import icVisibility from "@iconify/icons-ic/twotone-visibility";
 import icVisibilityOff from "@iconify/icons-ic/twotone-visibility-off";
+import { NgxSpinnerService } from "ngx-spinner";
 import { AuthService } from "src/@biostar/services/auth.service";
 import { CommonService } from "src/@biostar/services/common.service";
 @Component({
@@ -27,7 +28,7 @@ export class RegisterComponent implements OnInit {
     private snackbar: MatSnackBar,
     private AuthService: AuthService,
     private commonService: CommonService,
-    // private spinner: NgxSpinnerService,
+    private spinner: NgxSpinnerService,
 
     // spinner
 
@@ -77,17 +78,24 @@ export class RegisterComponent implements OnInit {
         "password":this.form.get('password').value,
         "confirmPassword": this.form.get('confirmPassword').value,
       };
-    // this.spinner.show();
+    this.spinner.show();
     console.log(body);
     
     this.AuthService.Register(body).subscribe(
       (response: any) => {
         //let dir = localStorage.getItem("UserLanguage");
+        this.commonService.openSnackBar(
+          response.message,
+          "x"
+        );
+        this.spinner.hide()
       },
       (error: Error) => {
-        // this.spinner.hide();
-        // this.alertifyService.error('technical error ');
-      }
+        this.spinner.hide();
+        this.commonService.openSnackBarError(
+          'error in create user',
+          "x"
+        );      }
     );
   }
   dir() {

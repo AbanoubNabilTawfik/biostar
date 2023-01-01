@@ -30,3 +30,20 @@ mat-dialog-content {
   margin: 0;
   padding: 0;
 }
+@font-face {
+  font-family: Apercu Regular;
+  src: url('../../../../assets/fonts/Apercu/ApercuRegular.otf') format("ApercuRegular");
+}
+@font-face {
+  font-family: Apercu Bold Condensed;
+  src: url('../../../../assets/fonts/Apercu/Apercu\ Pro\ Bold.otf')
+    format("ApercuRegular");
+}
+.ApercuProRegular {
+  font-family: Apercu Regular;
+
+}
+.ApercuProBold {
+  font-family: Apercu Bold Condensed;
+
+}

@@ -28,7 +28,7 @@ export class CreateEditComponent implements OnInit {
   FontStyle: any;
   FontSize: any;
   FontColor: any;
-  FontFamily: any;
+  FontFamily: any = 'ApercuProRegular';
   formatedImage: any;
   IsBack: any;
   IsActive:any;
@@ -56,7 +56,7 @@ export class CreateEditComponent implements OnInit {
 
   initForm() {
     this.Form = this.fb.group({
-      BackgroundPic: ["", [Validators.required]],
+      BackgroundPic: [""],
       FontColor: [
         "#000000",
         [
@@ -76,8 +76,7 @@ export class CreateEditComponent implements OnInit {
           // Validators.pattern(Patterns.lettersorsymbolsorspaces),
         ],
       ],
-      FontStyle: ["normal", [Validators.required]],
-
+      FontStyle: ['oblique', [Validators.required]],
       CardWidth: [
         1,
         [
@@ -96,9 +95,9 @@ export class CreateEditComponent implements OnInit {
           // Validators.pattern(Patterns.lettersorsymbolsorspaces),
         ],
       ],
-      IsBack: [false, [Validators.required]],
-      IsActive:[false],
-      fontFamily:[null]
+      IsBack: ['false', [Validators.required]],
+      // IsActive:[false],
+      FontFamily :[ [Validators.required]],
     });
 
     this.initFormInEdit();
@@ -111,11 +110,15 @@ export class CreateEditComponent implements OnInit {
       this.FontSize = this.defaults.fontSize;
       this.FontColor = this.defaults.fontColor;
       this.IsBack = this.defaults.isBack;
-      this.IsActive= this.defaults.isActive 
+      this.IsActive= this.defaults.isActive ;
+      this.FontFamily= this.defaults.fontFamily 
+
       this.Form.get("IsBack").patchValue(this.defaults.isBack);
+      
       setTimeout(() => {
         this.imgURL = this.displayBase64(this.defaults.backgroundPic);
       }, 1000);
+      
     }
   }
   preview(files: any) {
@@ -139,6 +142,8 @@ export class CreateEditComponent implements OnInit {
   }
 
   submit() {
+    console.log(this.Form);
+    
     const formData: FormData = new FormData();
     if (this.newsImgB64 !== undefined) {
       formData.append("BackgroundPic", this.newsImgB64, this.newsImgB64.name);
@@ -171,6 +176,11 @@ export class CreateEditComponent implements OnInit {
       "CardHight",
       this.Form.controls["CardHight"].value.toString()
     );
+    formData.append(
+      "FontFamily",
+      this.Form.controls["FontFamily"].value.toString()
+    );
+
     formData.append("IsBack", this.Form.controls["IsBack"].value.toString());
     //formData.append("isActive", this.Form.controls["isActive"].value.toString());
     this.spinner.show();

@@ -3,21 +3,20 @@
 
 // }
 @font-face {
-  font-family: ApercuRegular;
-  src: url('../../../../assets/fonts/Apercu/ApercuProRegular.otf')
-    format("ApercuRegular");
+  font-family: Apercu Regular;
+  src: url('../../../../assets/fonts/Apercu/ApercuRegular.otf') format("ApercuRegular");
 }
 @font-face {
-  font-family: ApercuBold;
+  font-family: Apercu Bold Condensed;
   src: url('../../../../assets/fonts/Apercu/Apercu\ Pro\ Bold.otf')
     format("ApercuRegular");
 }
 .ApercuProRegular {
-  font-family: ApercuRegular;
+  font-family: Apercu Regular;
 
 }
 .ApercuProBold {
-  font-family: ApercuBold;
+  font-family: Apercu Bold Condensed;
 
 }
 

@@ -52,13 +52,20 @@
                 </div>
                 <div class="form-group" style="margin-block: 15px">
                   <mat-form-field appearance="fill" style="width: 100%">
-                    <mat-label>{{ "Font Family" | translate }} </mat-label>
-                    <mat-select disableRipple formControlName="fontFamily" [(ngModel)]="FontFamily">
-                      <mat-option value="ApercuProRegular"
-                      (onSelectionChange)="onSelectFontFamily()"
+                    <mat-label>{{ "Font Family" | translate }} *</mat-label>
+                    <mat-select
+                      disableRipple
+                      [(ngModel)]="FontFamily"
+                      formControlName="FontFamily"
+                    >
+                      <mat-option
+                        value="ApercuProRegular"
+                        (Change)="onSelectFontFamily()"
                         >Apercu Pro Regular</mat-option
                       >
-                      <mat-option value="ApercuProBold"
+                      <mat-option
+                        value="ApercuProBold"
+                        (Change)="onSelectFontFamily()"
                         >Apercu Pro Bold</mat-option
                       >
                     </mat-select>
@@ -102,7 +109,7 @@
                       formControlName="FontStyle"
                       [(ngModel)]="FontStyle"
                     >
-                      <mat-option value="normal">normal</mat-option>
+                      <!-- <mat-option value="normal">normal</mat-option> -->
                       <mat-option value="italic">italic</mat-option>
                       <mat-option value="oblique">oblique</mat-option>
                       <mat-option value="oblique 10deg"
@@ -163,7 +170,7 @@
                   >
                     <div>
                       <mat-error
-                        *ngIf="Form.get('FontStyle')?.errors['required']"
+                        *ngIf="Form.get('FontColor')?.errors['required']"
                       >
                         {{ "this field is required" | translate }}
                       </mat-error>
@@ -253,8 +260,11 @@
                       [style.font-style]="FontStyle"
                       [style.font-size.px]="FontSize"
                       [style.color]="FontColor"
-                      [class]="FontFamily == 'ApercuProRegular' ? 'ApercuProRegular' : 'ApercuProBold'"
-
+                      [class]="
+                        FontFamily == 'ApercuProRegular'
+                          ? 'ApercuProRegular'
+                          : 'ApercuProBold'
+                      "
                     >
                       {{ "test paragraph" | translate }}
                     </p>
@@ -276,7 +286,8 @@
       (click)="submit()"
       mat-raised-button
       color="primary"
-    >
+      >
+      <!-- [disabled]="Form.invalid" -->
       {{ "Save" | translate }}
     </button>
   </div>

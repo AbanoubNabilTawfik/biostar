@@ -101,7 +101,7 @@ export class LoginComponent implements OnInit {
       (error: Error) => {
         // this.spinner.hide();
         // this.alertifyService.error('technical error ');
-        this.commonService.openSnackBar(
+        this.commonService.openSnackBarError(
           "technical error ",
           "x"
         );

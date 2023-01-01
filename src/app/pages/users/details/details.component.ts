@@ -46,7 +46,10 @@ export class DetailsComponent implements OnInit {
     mywindow.document.write(
       "<html><head><title>" + document.title + "</title>"
     );
+    mywindow.document.write('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">');
     mywindow.document.write('<link rel="stylesheet" href="../../../assets/theme/external-window.css">');
+    mywindow.document.write('<link rel="stylesheet" href="../../../assets/theme/external-window.css">');
+    mywindow.document.write('<link rel="stylesheet" href="../../../assets/fonts/Apercu/ApercuProRegular.otf">');
 
     mywindow.document.write("</head><body >");
     // mywindow.document.write("<h1>" + document.title + "</h1>");

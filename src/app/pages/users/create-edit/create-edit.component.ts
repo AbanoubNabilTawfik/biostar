@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Router } from "@angular/router";
 import { NgxSpinnerService } from "ngx-spinner";
 import { Patterns } from "src/@biostar/Constrants/Patterns";
+import { CommonService } from "src/@biostar/services/common.service";
 import { SharedService } from "src/@biostar/services/shared.service";
 import { UsersService } from "src/@biostar/services/users.service";
 
@@ -30,7 +31,8 @@ export class CreateEditComponent implements OnInit {
     private UsersService: UsersService,
     private spinner: NgxSpinnerService,
     private dialogRef: MatDialogRef<CreateEditComponent>,
-    @Inject(MAT_DIALOG_DATA) public defaults: any
+    @Inject(MAT_DIALOG_DATA) public defaults: any,
+    private commonService: CommonService
   ) {}
 
   ngOnInit(): void {
@@ -201,28 +203,45 @@ export class CreateEditComponent implements OnInit {
     // formData.append('ShortAddress', this.Form.controls['priceType'].value.toString());
 
     this.spinner.show();
-    if(this.defaults == null){ 
-    this.UsersService.setUsers(formData).subscribe(
-      (response: any) => {
-        this.dialogRef.close("reload");
-        // this.alertifyService.success(response.message);
-      },
-      (error: Error) => {
-        this.spinner.hide();
-        // this.alertifyService.error('technical error ');
-      }
-    );
-    }
-    else{
-
-      this.UsersService.updateUserById(this.defaults.useru_id ,formData).subscribe(
+    if (this.defaults == null) {
+      this.UsersService.setUsers(formData).subscribe(
         (response: any) => {
-          this.dialogRef.close("reload");
-          // this.alertifyService.success(response.message);
+          if (response.isPassed == true) {
+            this.dialogRef.close("reload");
+            this.commonService.openSnackBar(response.message, "x");
+            this.spinner.hide();
+
+          } else {
+            this.commonService.openSnackBarError(response.message, "x");
+            this.spinner.hide();
+
+          }
         },
         (error: Error) => {
           this.spinner.hide();
-          // this.alertifyService.error('technical error ');
+          this.commonService.openSnackBarError("Technical Error", "x");
+        }
+      );
+    } else {
+      this.UsersService.updateUserById(
+        this.defaults.useru_id,
+        formData
+      ).subscribe(
+        (response: any) => {
+          if (response.isPassed == true) {
+            this.dialogRef.close("reload");
+            this.commonService.openSnackBar(response.message, "x");
+            this.spinner.hide();
+
+          } else {
+            this.commonService.openSnackBarError(response.message, "x");
+            this.spinner.hide();
+
+          }
+        },
+        (error: Error) => {
+          this.spinner.hide();
+          this.commonService.openSnackBarError("Technical Error", "x");
         }
       );
     }

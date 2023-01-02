@@ -15,6 +15,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { RegisterComponent } from './register/register.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [LoginComponent, RegisterComponent],
@@ -35,7 +36,9 @@ import { RegisterComponent } from './register/register.component';
           useFactory: HttpLoaderFactory,
           deps: [HttpClient]
       }
-  })
+  }),
+  NgxSpinnerModule,
+
   ]
 })
 export class AuthModule { }

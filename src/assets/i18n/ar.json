@@ -65,5 +65,7 @@
     "Register": "تسجيل جديد",
     "New User": "تسجيل مستخدم جديد",
     "Font Color":"لون الخط",
-    "Font Family":"عائلة الخط"
+    "Font Family":"عائلة الخط",
+    "Is Active":"مفعل للطباعة",
+    "Has Back":"الطباعة على وجهين"
 }

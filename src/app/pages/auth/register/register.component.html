@@ -18,7 +18,6 @@
       <form
         [formGroup]="form"
         name="form"
-        (ngSubmit)="RegisterNewUser()"
         class="form-login mb-5 p-5"
         role="form"
         style="
@@ -146,17 +145,6 @@
           </div>
         </div>
         <div class="row">
-          <!-- <div class="col-md-6 col-sm-6 col-xs-12 mt-3">
-            <button
-              type="button"
-              style="border: solid 2px #e27352; color: #e27352"
-              class="btn-lg"
-              [routerLink]="['/auth/sign-up']"
-            >
-              {{ "Register" | translate }}
-            </button>
-          </div> -->
-          <!-- <div class="col-md-6 col-sm-6 col-xs-12 mt-3"> -->
           <button
             type="submit"
             (click)="RegisterNewUser()"
@@ -176,36 +164,8 @@
           </button>
           <!-- </div> -->
         </div>
-        <!-- <div class="row">
-          <div class="col-md-6 col-sm-6 col-xs-12 mt-3 mb-3">
-            <mat-checkbox
-              style="border-color: white !important; color: #92929d"
-              >{{
-                "Remember
-                        me!" | translate
-              }}</mat-checkbox
-            >
-          </div>
-          <div class="col-md-6 col-sm-6 col-xs-12 mt-3 mb-3">
-            <a
-              [routerLink]="['/auth/forget-password']"
-              style="color: #92929d; font-size: 19px"
-              class="forget-password"
-              >{{
-                "Forget
-                        Password?" | translate
-              }}</a
-            >
-          </div>
-        </div> -->
 
-        <!-- <mat-error *ngIf='ErrorMessage!=""'>
-                {{'EmailErrorOrErrorPassword' | translate}}
-            </mat-error> -->
         <br />
-        <!-- <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" type="ball-spin-clockwise">
-                <p style="color: white">{{'Please Wait.'|translate}} </p>
-            </ngx-spinner> -->
       </form>
     </div>
   </div>

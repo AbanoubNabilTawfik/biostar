@@ -42,7 +42,7 @@ export class CreateEditComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public defaults: any,
     private commonService: CommonService,
     private sanitizer: DomSanitizer
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -96,7 +96,7 @@ export class CreateEditComponent implements OnInit {
         ],
       ],
       IsBack: ["false", [Validators.required]],
-      // IsActive:[false],
+      IsActive: [""],
       FontFamily: [[Validators.required]],
     });
     this.Form.get('FontColor').patchValue('#DDDDDD')
@@ -115,8 +115,8 @@ export class CreateEditComponent implements OnInit {
       this.IsActive = this.defaults.isActive;
       this.FontFamily = this.defaults.fontFamily;
 
-      this.Form.get("IsBack").patchValue(this.defaults.isBack);
-
+      //this.Form.get("IsBack").patchValue(this.defaults.isBack);
+      //this.Form.get("IsBack").patchValue(this.defaults.isBack);
       setTimeout(() => {
         this.imgURL = this.displayBase64(this.defaults.backgroundPic);
       }, 1000);
@@ -192,21 +192,22 @@ export class CreateEditComponent implements OnInit {
     } else {
       formData.append("IsBack", this.Form.controls["IsBack"].value.toString());
     }
-    //formData.append("isActive", this.Form.controls["isActive"].value.toString());
+    formData.append("IsActive", this.Form.controls["IsActive"].value.toString());
 
     if (this.defaults == null && this.Form.controls["IsBack"].value !== undefined) {
       this.spinner.show();
 
       this.PrintOptionsService.setPrintOptions(formData).subscribe(
         (response: any) => {
+          if (response.isPassed) {
             this.spinner.hide();
             this.dialogRef.close("reload");
             this.commonService.openSnackBar(
               "you are set your options successfully",
               "x"
             );
-            // this.spinner.hide();
-            // this.commonService.openSnackBarError(response.message, "x");
+            this.router.navigateByUrl('/print-options');
+          }
         },
         (error: Error) => {
           this.spinner.hide();

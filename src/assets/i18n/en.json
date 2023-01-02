@@ -65,5 +65,7 @@
     "Register": "Register",
     "New User": "Add New User",
     "Font Color":"Font Color",
-    "Font Family":"Font Family"
+    "Font Family":"Font Family",
+    "Is Active":"Is Active on Print",
+    "Has Back":"Print in 2 faces"
 }

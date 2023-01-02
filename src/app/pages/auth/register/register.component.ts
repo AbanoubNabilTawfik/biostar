@@ -32,8 +32,8 @@ export class RegisterComponent implements OnInit {
 
     // spinner
 
-    
-  ) {}
+
+  ) { }
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -56,46 +56,45 @@ export class RegisterComponent implements OnInit {
     );
   }
 
-  // toggleVisibility() {
-  //   if (this.visible) {
-  //     this.inputType = 'password';
-  //     this.visible = false;
-  //     this.cd.markForCheck();
-  //   } else {
-  //     this.inputType = 'text';
-  //     this.visible = true;
-  //     this.cd.markForCheck();
-  //   }
-  // }
-  login()
-  {
+
+  login() {
     this.router.navigateByUrl('/auth/login');
   }
   RegisterNewUser() {
     let body = {
-        "username":this.form.get('username').value,
-        "email": this.form.get('email').value,
-        "password":this.form.get('password').value,
-        "confirmPassword": this.form.get('confirmPassword').value,
-      };
+      "username": this.form.get('username').value,
+      "email": this.form.get('email').value,
+      "password": this.form.get('password').value,
+      "confirmPassword": this.form.get('confirmPassword').value,
+    };
     this.spinner.show();
     console.log(body);
-    
+
     this.AuthService.Register(body).subscribe(
       (response: any) => {
-        //let dir = localStorage.getItem("UserLanguage");
-        this.commonService.openSnackBar(
-          response.message,
-          "x"
-        );
-        this.spinner.hide()
+        if (!response.isError) {
+          this.commonService.openSnackBar(
+            response.message,
+            "x"
+          );
+          this.spinner.hide();
+          this.router.navigate(["/"]);
+        }
+        else {
+          this.spinner.hide();
+          this.commonService.openSnackBarError(
+            response.message,
+            "x"
+          );
+        }
       },
       (error: Error) => {
         this.spinner.hide();
         this.commonService.openSnackBarError(
           'error in create user',
           "x"
-        );      }
+        );
+      }
     );
   }
   dir() {

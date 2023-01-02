@@ -4,6 +4,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from "@angular/router";
 import icVisibility from "@iconify/icons-ic/twotone-visibility";
 import icVisibilityOff from "@iconify/icons-ic/twotone-visibility-off";
+import { NgxSpinnerService } from "ngx-spinner";
 import { ResDTO } from "src/@biostar/Models/res.dto";
 import { AuthService } from "src/@biostar/services/auth.service";
 import { CommonService } from "src/@biostar/services/common.service";
@@ -29,7 +30,7 @@ export class LoginComponent implements OnInit {
     private AuthService: AuthService,
     private commonService: CommonService,
     // private alertifyService : 
-    // private spinner: NgxSpinnerService,
+    private spinner: NgxSpinnerService,
 
     // spinner
 
@@ -77,7 +78,7 @@ export class LoginComponent implements OnInit {
       "password": this.form.get('password').value,
     };
 
-    // this.spinner.show();
+    this.spinner.show();
     this.AuthService.login(body).subscribe(
       (response: ResDTO) => {
         if (!response.isError) {
@@ -85,6 +86,8 @@ export class LoginComponent implements OnInit {
           let user_token = localStorage.setItem('tokendata', tokendata); //response.serverParams.Data.User);
           let app_user = localStorage.setItem('app_user', JSON.stringify(response.serverParams.Data.User));
           let dirToken = localStorage.setItem('id_token', JSON.stringify(response.serverParams.Data.Access_token));
+          this.spinner.hide();
+
           this.commonService.openSnackBar(
             "Login successfully",
             "x"
@@ -99,7 +102,7 @@ export class LoginComponent implements OnInit {
         }
       },
       (error: Error) => {
-        // this.spinner.hide();
+        this.spinner.hide();
         // this.alertifyService.error('technical error ');
         this.commonService.openSnackBarError(
           "technical error ",

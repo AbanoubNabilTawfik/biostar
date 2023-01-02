@@ -28,10 +28,10 @@ export class CreateEditComponent implements OnInit {
   FontStyle: any;
   FontSize: any;
   FontColor: any;
-  FontFamily: any = 'ApercuProRegular';
+  FontFamily: any = "ApercuProRegular";
   formatedImage: any;
   IsBack: any;
-  IsActive:any;
+  IsActive: any;
   constructor(
     private fb: FormBuilder,
     public SharedService: SharedService,
@@ -76,7 +76,7 @@ export class CreateEditComponent implements OnInit {
           // Validators.pattern(Patterns.lettersorsymbolsorspaces),
         ],
       ],
-      FontStyle: ['oblique', [Validators.required]],
+      FontStyle: ["oblique", [Validators.required]],
       CardWidth: [
         1,
         [
@@ -95,11 +95,13 @@ export class CreateEditComponent implements OnInit {
           // Validators.pattern(Patterns.lettersorsymbolsorspaces),
         ],
       ],
-      IsBack: ['false', [Validators.required]],
+      IsBack: ["false", [Validators.required]],
       // IsActive:[false],
-      FontFamily :[ [Validators.required]],
+      FontFamily: [[Validators.required]],
     });
+    this.Form.get('FontColor').patchValue('#DDDDDD')
 
+    this.Form.get('FontColor').patchValue('#000000')
     this.initFormInEdit();
   }
   initFormInEdit() {
@@ -110,15 +112,14 @@ export class CreateEditComponent implements OnInit {
       this.FontSize = this.defaults.fontSize;
       this.FontColor = this.defaults.fontColor;
       this.IsBack = this.defaults.isBack;
-      this.IsActive= this.defaults.isActive ;
-      this.FontFamily= this.defaults.fontFamily 
+      this.IsActive = this.defaults.isActive;
+      this.FontFamily = this.defaults.fontFamily;
 
       this.Form.get("IsBack").patchValue(this.defaults.isBack);
-      
+
       setTimeout(() => {
         this.imgURL = this.displayBase64(this.defaults.backgroundPic);
       }, 1000);
-      
     }
   }
   preview(files: any) {
@@ -143,7 +144,7 @@ export class CreateEditComponent implements OnInit {
 
   submit() {
     console.log(this.Form);
-    
+
     const formData: FormData = new FormData();
     if (this.newsImgB64 !== undefined) {
       formData.append("BackgroundPic", this.newsImgB64, this.newsImgB64.name);
@@ -158,7 +159,10 @@ export class CreateEditComponent implements OnInit {
         ? "#000000"
         : this.Form.controls["FontColor"].value.toString()
     );
-    if (this.Form.controls["FontSize"].value !== undefined) {
+    if (
+      this.Form.controls["FontSize"].value !== undefined &&
+      this.Form.controls["FontSize"].value !== null
+    ) {
       formData.append(
         "FontSize",
         this.Form.controls["FontSize"].value.toString()
@@ -180,36 +184,56 @@ export class CreateEditComponent implements OnInit {
       "FontFamily",
       this.Form.controls["FontFamily"].value.toString()
     );
-
-    formData.append("IsBack", this.Form.controls["IsBack"].value.toString());
+    if (
+      this.Form.controls["IsBack"].value == undefined ||
+      this.Form.controls["IsBack"].value == null
+    ) {
+      this.commonService.openSnackBarError("Please Select Card Face", "x");
+    } else {
+      formData.append("IsBack", this.Form.controls["IsBack"].value.toString());
+    }
     //formData.append("isActive", this.Form.controls["isActive"].value.toString());
-    this.spinner.show();
 
-    if (this.defaults == null) {
+    if (this.defaults == null && this.Form.controls["IsBack"].value !== undefined) {
+      this.spinner.show();
+
       this.PrintOptionsService.setPrintOptions(formData).subscribe(
         (response: any) => {
-          this.dialogRef.close("reload");
-          this.commonService.openSnackBar(
-            "you are set your options successfully",
-            "x"
-          );
+            this.spinner.hide();
+            this.dialogRef.close("reload");
+            this.commonService.openSnackBar(
+              "you are set your options successfully",
+              "x"
+            );
+            // this.spinner.hide();
+            // this.commonService.openSnackBarError(response.message, "x");
         },
         (error: Error) => {
           this.spinner.hide();
           this.commonService.openSnackBarError("error in set options", "x");
         }
       );
-    } else {
+    } else if (this.defaults !== null) {
+      this.spinner.show();
+
       this.PrintOptionsService.updatePrintOptionsById(
         this.defaults.id,
         formData
       ).subscribe(
         (response: any) => {
-          this.dialogRef.close("reload");
-          this.commonService.openSnackBar(
-            "you are set your options successfully",
-            "x"
-          );
+          if (response.isPassed == true) {
+            this.spinner.hide();
+
+            this.dialogRef.close("reload");
+            this.commonService.openSnackBar(
+              "you are set your options successfully",
+              "x"
+            );
+          } else {
+            this.spinner.hide();
+
+            this.commonService.openSnackBarError(response.message, "x");
+          }
         },
         (error: Error) => {
           this.spinner.hide();
@@ -219,8 +243,7 @@ export class CreateEditComponent implements OnInit {
     }
   }
 
-  onSelectFontFamily(){
+  onSelectFontFamily() {
     console.log(this.FontFamily);
-    
   }
 }

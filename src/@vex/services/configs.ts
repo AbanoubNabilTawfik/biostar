@@ -9,8 +9,8 @@ const defaultConfig: Config = {
   layout: 'horizontal',
   boxed: false,
   sidenav: {
-    title: 'VEX',
-    imageUrl: 'assets/img/demo/logo.svg',
+    title: '',
+    imageUrl: 'assets/img/demo/c-logo.jpeg',
     showCollapsePin: true,
     state: 'expanded'
   },
